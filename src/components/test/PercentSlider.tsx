@@ -31,7 +31,6 @@ const PercentSlider = ({ id }: { id: number }) => {
       tapToSeek={true}
       value={sliderValue}
       thumbImage={sliderThumbImage}
-      disabled={false} // 총합 100% 넘어가면 true
     ></Slider>
   );
 };

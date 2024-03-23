@@ -57,7 +57,6 @@ const TestSecondScreen = ({
   const [totalPercent, setTotalPercent] = useState(0);
   useEffect(() => {
     setTotalPercent(love.reduce((acc, cur) => acc + cur.percentage, 0));
-    console.log(totalPercent);
   }, [love]);
   return (
     <>
