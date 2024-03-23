@@ -11,7 +11,7 @@ import { THEME } from "@/constants/theme";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { setLove } from "@/store/modules/test";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const PercentageControlBox = ({ id, name }: { id: number; name: string }) => {
   return (
@@ -32,18 +32,24 @@ const PercentageControlBox = ({ id, name }: { id: number; name: string }) => {
 
 const TestSecondScreen = ({
   route,
+  navigation,
 }: {
   route: {
     params: {
       selectedCat: number[];
     };
   };
+  navigation: any;
 }) => {
   const { selectedCat } = route.params; // [1, 4]
   const {
     category,
     result: { love },
   } = useAppSelect((state) => state.test);
+
+  const onPressNextButton = () => {
+    navigation.navigate("TestThird");
+  };
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -62,16 +68,20 @@ const TestSecondScreen = ({
     <>
       <PageHeader />
       <TestContainer>
-        <View style={{ gap: spacing.gutter, paddingTop: 50 }}>
+        <View style={{ gap: spacing.gutter, paddingTop: 50, flex: 1 }}>
           <TestQuestionText text="내가 사랑하고 있는 사람들이 나에게 얼마나 중요한지 분배해주세요" />
           <ProgressBar ratio={totalPercent} />
-          <View>
+          <ScrollView
+            style={{
+              marginBottom: 50,
+            }}
+          >
             {selectedCat.map((id) => (
               <PercentageControlBox key={id} name={category[id]} id={id} />
             ))}
-          </View>
+          </ScrollView>
         </View>
-        <MainButton text="다음" onPress={() => {}} />
+        <MainButton text="다음" onPress={onPressNextButton} />
       </TestContainer>
     </>
   );

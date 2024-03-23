@@ -4,6 +4,9 @@ import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
 import { spacing } from "@/constants/spacing";
 import { THEME } from "@/constants/theme";
+import { useAppDispatch } from "@/store/configureStore.hooks";
+import { logout } from "@/store/modules/auth";
+import { removeData } from "@/utils/storage";
 import useResponsiveSize from "@/utils/useResponsiveSize";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -85,6 +88,14 @@ const Section = ({
 );
 
 const SettingsMainScreen = () => {
+  const dispatch = useAppDispatch();
+
+  const onPressLogout = async () => {
+    await removeData("token");
+
+    dispatch(logout());
+  };
+
   return (
     <View>
       <PageHeader title="설정" />
@@ -99,7 +110,7 @@ const SettingsMainScreen = () => {
         <Row text="이용 약관" onPress={() => {}} />
         <Row text="오픈소스 라이브러리" onPress={() => {}} />
       </Section>
-      <Row text="로그아웃" onPress={() => {}} color={THEME.palette.red} />
+      <Row text="로그아웃" onPress={onPressLogout} color={THEME.palette.red} />
     </View>
   );
 };

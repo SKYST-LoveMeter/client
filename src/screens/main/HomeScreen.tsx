@@ -4,6 +4,9 @@ import MainButton from "@/components/@common/MainButton";
 import { MyPieChart } from "@/components/test/PieChart";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
+import { Client } from "@/utils/api";
+import { logError } from "@/utils/logError";
 import React from "react";
 import { Image, View } from "react-native";
 import styled from "styled-components/native";
@@ -69,6 +72,30 @@ const GoToTest = ({ onPress }: { onPress: () => void }) => (
 );
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
+  const dispatch = useAppDispatch();
+
+  const token = useAppSelect((state) => state.auth.token);
+
+  const onPressWrite = async () => {
+    try {
+      const response = await Client.get<{
+        category: {
+          [key: string]: string;
+        };
+        test_id: number;
+      }>("/test");
+
+      if (response.status === 200) {
+      } else {
+        throw new Error("error");
+      }
+    } catch (error) {
+      logError(error);
+    }
+
+    navigation.navigate("TestFirst");
+  };
+
   return (
     <>
       <Header
@@ -84,6 +111,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             resizeMode: "contain",
           }}
         />
+        <MainButton text="작성하기" onPress={onPressWrite} />
       </Container>
       <GoToTest onPress={() => navigation.navigate("TestFirst")} />
     </>

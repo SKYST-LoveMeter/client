@@ -1,20 +1,74 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { Client } from "@/utils/api";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const loginThunk = createAsyncThunk(
+  "auth/login",
+  async ({ id, password }: { id: string; password: string }) => {
+    try {
+      await Client.get("/auth/login", {
+        params: {
+          username: id,
+          password,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      id,
+      password,
+    };
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    token: null,
+    isLoggedIn: false,
+    signUpForm: {
+      id: "",
+      password: "",
+      nickname: "",
+      passwordCheck: "",
+    },
   },
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
+    addToken: (
+      state,
+      action: {
+        payload: string;
+      }
+    ) => {
+      if (action.payload) {
+        state.isLoggedIn = true;
+        state.token = action.payload;
+      }
     },
-    logout: (state) => {
-      state.user = null;
+    onChangeSignUpForm: (
+      state,
+      action: {
+        payload: {
+          key: string;
+          value: string;
+        };
+      }
+    ) => {
+      state.signUpForm[action.payload.key] = action.payload.value;
     },
+    resetSignUpForm: (state) => {
+      state.signUpForm = {
+        id: "",
+        password: "",
+        nickname: "",
+        passwordCheck: "",
+      };
+    },
+    logout: (state) => {},
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { onChangeSignUpForm, logout, addToken, resetSignUpForm } =
+  authSlice.actions;
 
 export default authSlice.reducer;
