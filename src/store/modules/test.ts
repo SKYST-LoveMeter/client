@@ -1,6 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface IInitialState {
+  category: {
+    [key: number]: string;
+  };
+  result: {
+    love: {
+      id: number;
+      percentage: number;
+    }[];
+    effort: {
+      description: string;
+      value: number;
+    }[];
+  };
+}
+
+const initialState: IInitialState = {
   category: {
     1: "나",
     2: "가족",
@@ -9,22 +25,8 @@ const initialState = {
     5: "환경",
   },
   result: {
-    love: [
-      {
-        id: 2,
-        percentage: 40,
-      },
-      {
-        id: 3,
-        percentage: 30,
-      },
-    ],
-    effort: [
-      {
-        description: "프로젝트1",
-        value: 3,
-      },
-    ],
+    love: [],
+    effort: [],
   },
 };
 
@@ -35,9 +37,25 @@ export const testSlice = createSlice({
     renderCategory: (state, action) => {
       state.category = action.payload;
     },
+    setLove: (state, action) => {
+      state.result.love = action.payload;
+    },
+    setLovePercentage: (
+      state,
+      action: {
+        payload: {
+          id: number;
+          percentage: number;
+        };
+      }
+    ) => {
+      state.result.love.find(
+        (item) => item.id === action.payload.id
+      )!.percentage = action.payload.percentage;
+    },
   },
 });
 
-export const { renderCategory } = testSlice.actions;
+export const { renderCategory, setLove, setLovePercentage } = testSlice.actions;
 
 export default testSlice.reducer;

@@ -2,7 +2,7 @@ import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
 import { spacing } from "@/constants/spacing";
-import useHeight from "@/utils/useHeight";
+import useHeight from "@/hooks/useHeight";
 import React from "react";
 import { Image, View } from "react-native";
 import styled from "styled-components/native";
