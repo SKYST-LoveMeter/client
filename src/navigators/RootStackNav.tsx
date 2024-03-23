@@ -10,9 +10,10 @@ export const RootStackNav = () => {
       screenOptions={{
         headerShown: false,
       }}
+      initialRouteName="AuthStack"
     >
-      <Stack.Screen name="MainStack" component={MainStack} />
       <Stack.Screen name="AuthStack" component={AuthStack} />
+      <Stack.Screen name="MainStack" component={MainStack} />
     </Stack.Navigator>
   );
 };

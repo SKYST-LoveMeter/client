@@ -5,6 +5,7 @@ export const palette = {
   pink_sub: "#FFF1F1",
   black: "#000000",
   white: "#FFFFFF",
+  gray: "#949496",
 } as const;
 
 export const THEME = {

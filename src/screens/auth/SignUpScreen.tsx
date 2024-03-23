@@ -1,77 +1,85 @@
 import { View, Text, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageHeader from "@/components/@common/PageHeader";
-import Typography from "@/components/@common/Typography";
 import FlexBox from "@/components/@common/FlexBox";
+import Typography from "@/components/@common/Typography";
 import Margin from "@/components/@common/Margin";
-import AuthForm from "@/components/AuthForm";
 import ContentsWrapper, {
   CenteredContentsWrapper,
 } from "@/components/@common/ContentWrapper";
-import MainButton from "@/components/@common/MainButton";
+import AuthForm from "@/components/AuthForm";
 import { spacing } from "@/constants/spacing";
-import { useNavigation } from "@react-navigation/native";
 import { AuthStackParamList } from "@/navigators/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "@/store/configureStore.hooks";
-import { addToken, loginThunk } from "@/store/modules/auth";
+import { useNavigation } from "@react-navigation/native";
+import MainButton from "@/components/@common/MainButton";
 import { Client } from "@/utils/api";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { showErrorToast } from "@/utils/showToast";
+import {
+  addToken,
+  onChangeSignUpForm,
+  resetSignUpForm,
+} from "@/store/modules/auth";
 
-const LoginScreen = () => {
+export default function SignUpScreen() {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
+  const form = useAppSelect((state) => state.auth.signUpForm);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSignUpForm());
+    };
+  }, []);
+
   const dispatch = useAppDispatch();
 
-  const [form, setForm] = useState({
-    id: "",
-    password: "",
-  });
+  const onPressSignUp = async () => {
+    let hasError = false;
 
-  const [loading, setLoading] = React.useState(false);
+    if (form.id === "") {
+      showErrorToast("아이디를 입력해주세요.");
+      hasError = true;
+    }
 
-  const onPressLogin = async () => {
-    navigation.navigate("MainStack", {
-      screen: "Home",
-    });
+    if (form.password === "") {
+      showErrorToast("비밀번호를 입력해주세요.");
+      hasError = true;
+    }
+
+    if (form.passwordCheck === "") {
+      showErrorToast("비밀번호 확인을 입력해주세요.");
+      hasError = true;
+    }
+
+    if (form.password !== form.passwordCheck) {
+      showErrorToast("비밀번호가 일치하지 않습니다.");
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    navigation.navigate("Nickname");
   };
 
-  // const onPressLogin = async () => {
-  //   if (loading) {
-  //     return;
-  //   }
+  const onPressLogin = () => {
+    navigation.navigate("Nickname");
+  };
 
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await Client.post<{
-  //       access: string;
-  //     }>("/login", {
-  //       params: {
-  //         username: form.id,
-  //         password: form.password,
-  //       },
-  //     });
-
-  //     if (response.status === 200) {
-  //       dispatch(addToken(response.data.access));
-
-  //       navigation.navigate("MainStack", {
-  //         screen: "Home",
-  //       });
-  //     } else {
-  //       showErrorToast("로그인에 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     showErrorToast("로그인에 실패했습니다.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  const onPressSignUp = () => {
-    navigation.navigate("SignUp");
+  const onChangeValue = (
+    key: "id" | "password" | "passwordCheck" | "nickname",
+    value: string
+  ) => {
+    dispatch(
+      onChangeSignUpForm({
+        key,
+        value,
+      })
+    );
   };
 
   return (
@@ -80,7 +88,7 @@ const LoginScreen = () => {
         flex: 1,
       }}
     >
-      <PageHeader headerLeftShown={false} />
+      <PageHeader />
       <FlexBox direction="column" alignItems="center" justifyContent="center">
         <Image
           source={require("@/../assets/images/logo.png")}
@@ -103,26 +111,23 @@ const LoginScreen = () => {
         <AuthForm
           placeholder="dfdf"
           text={form.id}
-          onChange={(text) => {
-            setForm({
-              ...form,
-              id: text,
-            });
-          }}
+          onChange={(text) => onChangeValue("id", text)}
         />
         <Margin margin={spacing.padding} />
         <AuthForm
           placeholder="dfdf"
           text={form.password}
-          onChange={(text) => {
-            setForm({
-              ...form,
-              password: text,
-            });
-          }}
+          onChange={(text) => onChangeValue("password", text)}
+        />
+        <Margin margin={spacing.padding} />
+
+        <AuthForm
+          placeholder="dfdf"
+          text={form.passwordCheck}
+          onChange={(text) => onChangeValue("passwordCheck", text)}
         />
         <Margin margin={50} />
-        <MainButton text="Login" onPress={onPressLogin} isLoading={loading} />
+        <MainButton text="다음으로" onPress={onPressSignUp} />
         <Margin margin={spacing.offset} />
         <CenteredContentsWrapper>
           <FlexBox
@@ -131,11 +136,11 @@ const LoginScreen = () => {
             gap={spacing.padding}
           >
             <Typography size="sm" weight="light">
-              계정이 없으신가요?
+              이미 계정이 있으신가요?
             </Typography>
-            <Pressable onPress={onPressSignUp}>
+            <Pressable onPress={onPressLogin}>
               <Typography size="sm" weight="light">
-                회원가입
+                로그인
               </Typography>
             </Pressable>
           </FlexBox>
@@ -143,6 +148,4 @@ const LoginScreen = () => {
       </ContentsWrapper>
     </View>
   );
-};
-
-export default LoginScreen;
+}
