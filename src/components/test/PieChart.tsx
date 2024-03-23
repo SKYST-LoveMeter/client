@@ -1,8 +1,9 @@
 import { PieChart } from "react-native-chart-kit";
 import FlexBox from "../@common/FlexBox";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import Typography from "../@common/Typography";
 import { spacing } from "@/constants/spacing";
+import { useNavigation } from "@react-navigation/native";
 
 const COLORS = [
   "rgba(131, 167, 234, 1)",
@@ -18,24 +19,6 @@ const COLORS = [
   "#F00",
 ];
 
-const data = [
-  {
-    name: "부모님",
-    percentage: 20,
-    color: COLORS[0],
-  },
-  {
-    name: "연인",
-    percentage: 40,
-    color: COLORS[1],
-  },
-  {
-    name: "나",
-    percentage: 20,
-    color: COLORS[2],
-  },
-];
-
 const chartConfig = {
   backgroundGradientFrom: "#1E2923",
   backgroundGradientFromOpacity: 0,
@@ -47,27 +30,48 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-const Legend = ({ index }: { index: number }) => {
+const Legend = ({
+  data,
+  index,
+}: {
+  index: number;
+  data: {
+    id: string;
+    name: string;
+    percentage: number;
+  };
+}) => {
+  const navigation = useNavigation();
+
+  const onPress = () => {
+    navigation.navigate("TestDetail", {
+      love_id: data.id,
+      name: data.name,
+    });
+  };
+
   return (
-    <FlexBox
-      alignItems="center"
-      gap={spacing.padding}
-      styles={{
-        paddingVertical: spacing.small,
-      }}
-    >
-      <View
-        style={{
-          width: 15,
-          height: 15,
-          backgroundColor: COLORS[index],
-          borderRadius: 5,
-          marginRight: 5,
+    <Pressable onPress={onPress}>
+      <FlexBox
+        alignItems="center"
+        gap={spacing.padding}
+        styles={{
+          paddingVertical: spacing.small,
         }}
-      />
-      <Typography size="md">{data[index].percentage}%</Typography>
-      <Typography size="md">{data[index].name}</Typography>
-    </FlexBox>
+      >
+        <View
+          style={{
+            width: 15,
+            height: 15,
+            backgroundColor: COLORS[index],
+            borderRadius: 5,
+            marginRight: 5,
+          }}
+        />
+        <Typography size="md">{data.percentage}%</Typography>
+        <Typography size="md">{data.name}</Typography>
+      </FlexBox>
+    </Pressable>
   );
 };
 export const MyPieChart = ({
@@ -76,10 +80,18 @@ export const MyPieChart = ({
 }: {
   title: string;
   data: {
+    love_id: string;
     name: string;
     percentage: number;
   }[];
 }) => {
+  const pieData = data.map((d) => ({
+    id: d.love_id,
+    name: d.name,
+    percentage: d.percentage,
+    color: COLORS[data.indexOf(d)],
+  }));
+
   return (
     <>
       <Typography
@@ -97,7 +109,7 @@ export const MyPieChart = ({
         }}
       >
         <PieChart
-          data={data}
+          data={pieData}
           width={400}
           height={220}
           chartConfig={chartConfig}
@@ -115,8 +127,12 @@ export const MyPieChart = ({
             top: 20,
           }}
         >
-          {data.map((d, index) => (
-            <Legend index={index} key={d.name} />
+          {pieData.map((d, index) => (
+            <Legend
+              index={index}
+              key={Math.random().toString(36).substring(7)}
+              data={d}
+            />
           ))}
         </View>
       </FlexBox>

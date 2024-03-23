@@ -6,18 +6,18 @@ import Loading from "@/components/test/Loading";
 import { MyPieChart } from "@/components/test/PieChart";
 import { spacing } from "@/constants/spacing";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
+import { exitReadMode } from "@/store/modules/calendar";
 import { Client } from "@/utils/api";
 import { logError } from "@/utils/logError";
 import React, { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 
 const dummy = [
-  { name: "자신", percentage: 50 },
-  { name: "애완동물", percentage: 0 },
-  { name: "친구", percentage: 50 },
-  { name: "자신", percentage: 50 },
-  { name: "애완동물", percentage: 0 },
-  { name: "친구", percentage: 50 },
+  { name: "자신", percentage: 50, love_id: 1 },
+  { name: "애완동물", percentage: 0, love_id: 2 },
+  { name: "친구", percentage: 50, love_id: 3 },
+  { name: "자신", percentage: 50, love_id: 4 },
+  { name: "친구", percentage: 50, love_id: 5 },
 ];
 
 const Section = ({
@@ -37,6 +37,11 @@ const Section = ({
   );
 };
 
+interface IResult {
+  before: { name: string; percentage: number; love_id: number }[];
+  after: { name: string; percentage: number; love_id: number }[];
+}
+
 export default function TestResultScreen({
   navigation,
   route,
@@ -45,13 +50,30 @@ export default function TestResultScreen({
   route: any;
 }) {
   const { test_id, is_test } = route.params;
-  console.log(test_id, is_test);
   const [isLoading, setIsLoading] = React.useState(false);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return () => {
+      if (is_test) {
+        dispatch(exitReadMode());
+      }
+    };
+  }, []);
 
   const test = useAppSelect((state) => state.test);
 
-  const dispatch = useAppDispatch();
   const token = useAppSelect((state) => state.auth.token);
+
+  const [result1, setResult1] = React.useState([]);
+
+  const [result2, setResult2] = React.useState<
+    {
+      name: string;
+      percentage: string;
+      love_id: number;
+    }[]
+  >([]);
 
   const sendResult = async () => {
     setIsLoading(true);
@@ -73,9 +95,11 @@ export default function TestResultScreen({
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
 
-        console.log(response.data);
+        setResult2(response.data);
       }
     } catch (e) {
+      console.log("오류");
+
       logError(e);
     } finally {
       setIsLoading(false);
@@ -87,7 +111,7 @@ export default function TestResultScreen({
 
     try {
       const response = await Client.post<{}>(
-        `test/${test.currentTestId}/result_view`,
+        `test/${test_id}/result_view`,
         {},
         {
           headers: {
@@ -98,8 +122,7 @@ export default function TestResultScreen({
 
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
-
-        console.log("read", response.data);
+        setResult2(response.data);
       }
     } catch (e) {
       logError(e);
@@ -133,8 +156,10 @@ export default function TestResultScreen({
             }}
           >
             <Margin margin={20} />
-            <MyPieChart data={dummy} title="결과" />
-            <MyPieChart data={dummy} title="결과" />
+            {/* <MyPieChart data={beforeData} title="나의 우선순위" /> */}
+            {/* <MyPieChart data={afterData} title="실제로 시간쏟는 대상" /> */}
+            <MyPieChart data={result2} title="나의 우선순위" />
+            <MyPieChart data={result2} title="실제로 시간쏟는 대상" />
             <Margin margin={30} />
             <Section title="이렇게 해보는건 어때요?">
               <View />

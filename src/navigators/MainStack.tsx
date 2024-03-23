@@ -2,6 +2,7 @@ import CalendarMainScreen from "@/screens/main/CalendarMainScreen";
 import HomeScreen from "@/screens/main/HomeScreen";
 import ResultScreen from "@/screens/main/ResultScreen";
 import SettingsMainScreen from "@/screens/main/SettingsMainScreen";
+import TestDetailScreen from "@/screens/test/TestDetailScreen";
 import TestFirstScreen from "@/screens/test/TestFirstScreen";
 import TestFourthScreen from "@/screens/test/TestFourthScreen";
 import TestResultScreen from "@/screens/test/TestResultScreen";
@@ -26,6 +27,7 @@ export const MainStack = () => {
       <Stack.Screen name="TestThird" component={TestThirdScreen} />
       <Stack.Screen name="TestFourth" component={TestFourthScreen} />
       <Stack.Screen name="TestResult" component={TestResultScreen} />
+      <Stack.Screen name="TestDetail" component={TestDetailScreen} />
     </Stack.Navigator>
   );
 };
