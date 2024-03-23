@@ -20,12 +20,17 @@ const initialState = {
       },
     ],
     effort: [
-      {
-        description: "프로젝트1",
-        value: 3,
-      },
+      // {
+      //   description: "프로젝트1",
+      //   value: 3,
+      // },
+      // {
+      //   description: "프로젝트2",
+      //   value: 1,
+      // },
     ],
   },
+  fourthScreenIndex: 0,
 };
 
 export const testSlice = createSlice({
@@ -35,9 +40,12 @@ export const testSlice = createSlice({
     renderCategory: (state, action) => {
       state.category = action.payload;
     },
+    addEffort: (state, action) => {
+      state.result.effort.push(action.payload);
+    },
   },
 });
 
-export const { renderCategory } = testSlice.actions;
+export const { renderCategory, addEffort } = testSlice.actions;
 
 export default testSlice.reducer;
