@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
     setLoading(true);
 
     try {
-      const response = await Client.post<{
+      const response = await Client.get<{
         category: {
           [key: string]: string;
         };
