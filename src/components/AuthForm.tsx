@@ -24,6 +24,8 @@ export default function AuthForm({
         placeholder={placeholder}
         value={text}
         onChangeText={onChange}
+        autoCorrect={false}
+        autoCapitalize="none"
       ></TextInput>
     </Box>
   );

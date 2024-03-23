@@ -1,40 +1,38 @@
 import { PieChart } from "react-native-chart-kit";
+import FlexBox from "../@common/FlexBox";
+import { View } from "react-native";
+import Typography from "../@common/Typography";
+import { spacing } from "@/constants/spacing";
+
+const COLORS = [
+  "rgba(131, 167, 234, 1)",
+  "#FFC0CB",
+  "#800080",
+  "#98FF98",
+  "#FFA500",
+  "#FFD700",
+  "#87CEEB",
+  "rgb(0, 0, 255)",
+  "#E6E6FA",
+  "#FDD5B1",
+  "#F00",
+];
 
 const data = [
   {
-    name: "Seoul",
-    population: 2800000,
-    color: "rgba(131, 167, 234, 1)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15,
+    name: "부모님",
+    percentage: 20,
+    color: COLORS[0],
   },
   {
-    name: "Toronto",
-    population: 2800000,
-    color: "#F00",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15,
+    name: "연인",
+    percentage: 40,
+    color: COLORS[1],
   },
   {
-    name: "Beijing",
-    population: 527612,
-    color: "red",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15,
-  },
-  {
-    name: "New York",
-    population: 8538000,
-    color: "#ffffff",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15,
-  },
-  {
-    name: "Moscow",
-    population: 11920000,
-    color: "rgb(0, 0, 255)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15,
+    name: "나",
+    percentage: 20,
+    color: COLORS[2],
   },
 ];
 
@@ -49,19 +47,70 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-export const MyPieChart = () => {
+const Legend = ({ index }: { index: number }) => {
   return (
-    <PieChart
-      data={data}
-      width={400}
-      height={220}
-      chartConfig={chartConfig}
-      accessor={"population"}
-      backgroundColor={"transparent"}
-      paddingLeft={"0"}
-      center={[30, 10]}
-      absolute
-      hasLegend={false}
-    />
+    <FlexBox
+      alignItems="center"
+      gap={spacing.padding}
+      styles={{
+        paddingVertical: spacing.small,
+      }}
+    >
+      <View
+        style={{
+          width: 15,
+          height: 15,
+          backgroundColor: COLORS[index],
+          borderRadius: 5,
+          marginRight: 5,
+        }}
+      />
+      <Typography size="md">{data[index].percentage}%</Typography>
+      <Typography size="md">{data[index].name}</Typography>
+    </FlexBox>
+  );
+};
+export const MyPieChart = ({ title }: { title: string }) => {
+  return (
+    <>
+      <Typography
+        size="lg"
+        weight="bold"
+        styles={{
+          textAlign: "center",
+        }}
+      >
+        {title}
+      </Typography>
+      <FlexBox
+        styles={{
+          paddingBottom: spacing.gutter,
+        }}
+      >
+        <PieChart
+          data={data}
+          width={400}
+          height={220}
+          chartConfig={chartConfig}
+          accessor={"percentage"}
+          backgroundColor={"transparent"}
+          paddingLeft={"0"}
+          center={[0, 0]}
+          absolute
+          hasLegend={false}
+        />
+        <View
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 20,
+          }}
+        >
+          {data.map((_, index) => (
+            <Legend index={index} />
+          ))}
+        </View>
+      </FlexBox>
+    </>
   );
 };

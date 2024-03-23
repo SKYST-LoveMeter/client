@@ -32,33 +32,8 @@ const initialState: IInitialState = {
     5: "환경",
   },
   result: {
-    love: [
-      {
-        id: 2,
-        percentage: 40,
-      },
-      {
-        id: 3,
-        percentage: 30,
-      },
-    ],
-    effort: [
-      {
-        description: "11111",
-        value: 3,
-        lovers: [],
-      },
-      {
-        description: "2222",
-        value: 1,
-        lovers: [],
-      },
-      {
-        description: "3333",
-        value: 2,
-        lovers: [],
-      },
-    ],
+    love: [],
+    effort: [],
   },
   fourthScreenIndex: 0,
   meta: {
@@ -114,7 +89,16 @@ export const testSlice = createSlice({
         (item) => item.id === action.payload.id
       )!.percentage = action.payload.percentage;
     },
-    addEffort: (state, action) => {
+    addEffort: (
+      state,
+      action: {
+        payload: {
+          description: string;
+          value: number;
+          lovers: number[];
+        };
+      }
+    ) => {
       state.result.effort.push(action.payload);
     },
     increaseFourthScreenIndex: (state) => {
