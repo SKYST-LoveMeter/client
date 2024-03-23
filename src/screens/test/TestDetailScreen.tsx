@@ -96,7 +96,7 @@ export default function TestDetailScreen({
   const arrayData = result ? padArray(result.previous_loves) : [0, 0, 0, 0, 0];
 
   const data = {
-    labels: ["ㅇㄹ", "ㅋㅋ", "ㅈ", "ㄷ", "ㄱ"],
+    labels: ["1", "2", "3", "4", "5"],
     datasets: [
       {
         data: arrayData,
@@ -105,7 +105,7 @@ export default function TestDetailScreen({
         strokeWidth: 2, // optional
       },
     ],
-    legend: ["ㅇㄹㅇㄹ"], // optional
+    legend: ["사랑의 변화 추이"], // optional
   };
   const screenWidth = Dimensions.get("window").width;
 
@@ -158,11 +158,13 @@ export default function TestDetailScreen({
       <Margin margin={spacing.gutter} />
       <View style={{ flex: 1 }}>
         <ContentsWrapper>
-          {result?.efforts.map((effort, index) => (
-            <ListItem key={index}>
-              <Typography size="md">{effort}</Typography>
-            </ListItem>
-          ))}
+          <View style={{ flexDirection: "column", gap: 10 }}>
+            {result?.efforts.map((effort, index) => (
+              <ListItem key={index}>
+                <Typography size="md">{effort}</Typography>
+              </ListItem>
+            ))}
+          </View>
         </ContentsWrapper>
       </View>
     </View>

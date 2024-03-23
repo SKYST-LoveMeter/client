@@ -18,7 +18,15 @@ const Container = styled.TouchableOpacity`
   width: ${(clientWidth - spacing.gutter * 3) / 2}px;
 `;
 
-const Box = ({ testId, date }: { testId: number; date: string }) => {
+const Box = ({
+  testId,
+  date,
+  index,
+}: {
+  testId: number;
+  date: string;
+  index: number;
+}) => {
   const navigation = useNavigation();
 
   const dispatch = useAppDispatch();
@@ -35,7 +43,7 @@ const Box = ({ testId, date }: { testId: number; date: string }) => {
   return (
     <Container onPress={onPressTestRsult}>
       <Typography size="md" styles={{ textAlign: "center" }}>
-        {formatDate(date)}의 기록
+        {formatDate(date, index)}의 기록
       </Typography>
     </Container>
   );

@@ -5,7 +5,7 @@ import { useAppSelect } from "@/store/configureStore.hooks";
 import { Client } from "@/utils/api";
 import { logError } from "@/utils/logError";
 import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
@@ -16,9 +16,12 @@ const Container = styled.View`
 `;
 
 const CalendarMainScreen = () => {
+  const [loading, setLoading] = useState(false);
   const token = useAppSelect((state) => state.auth.token);
   const [data, setData] = useState([]);
   const getData = async () => {
+    setLoading(true);
+
     try {
       const response = await Client.post<{}>(
         `test/calendar`,
@@ -35,6 +38,8 @@ const CalendarMainScreen = () => {
       }
     } catch (e) {
       logError(e);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -43,21 +48,27 @@ const CalendarMainScreen = () => {
   return (
     <>
       <PageHeader />
-      <ScrollView
-        contentContainerStyle={{
-          paddingBottom: 100,
-        }}
-      >
-        <Container>
-          {data.map((item) => (
-            <Box
-              key={item.test_id}
-              testId={item.test_id}
-              date={item.created_at}
-            />
-          ))}
-        </Container>
-      </ScrollView>
+
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: 100,
+          }}
+        >
+          <Container>
+            {data.map((item, index) => (
+              <Box
+                index={index}
+                key={item.test_id}
+                testId={item.test_id}
+                date={item.created_at}
+              />
+            ))}
+          </Container>
+        </ScrollView>
+      )}
     </>
   );
 };

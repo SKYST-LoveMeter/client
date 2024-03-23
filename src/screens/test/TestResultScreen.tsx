@@ -123,6 +123,7 @@ export default function TestResultScreen({
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
         setResult2(response.data);
+        console.log(response.data);
       }
     } catch (e) {
       logError(e);
