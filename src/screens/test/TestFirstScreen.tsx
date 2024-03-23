@@ -7,6 +7,7 @@ import TestQuestionText from "@/components/test/TestQuestionText";
 import { spacing } from "@/constants/spacing";
 import { THEME } from "@/constants/theme";
 import { useAppSelect } from "@/store/configureStore.hooks";
+import { showErrorToast } from "@/utils/showToast";
 import React, { useState } from "react";
 import { Image, View } from "react-native";
 import styled from "styled-components/native";
@@ -77,6 +78,19 @@ const ButtonsContainer = ({
 
 const TestFirstScreen = ({ navigation }: { navigation: any }) => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  const onPressNextBtn = () => {
+    if (selectedIds.length === 0) {
+      showErrorToast("하나 이상 선택해주세요");
+
+      return;
+    }
+
+    navigation.navigate("TestSecond", {
+      selectedCat: selectedIds.sort((a, b) => a - b),
+    });
+  };
+
   return (
     <>
       <PageHeader />
@@ -99,14 +113,7 @@ const TestFirstScreen = ({ navigation }: { navigation: any }) => {
           />
         </View>
 
-        <MainButton
-          text="다음"
-          onPress={() =>
-            navigation.navigate("TestSecond", {
-              selectedCat: selectedIds.sort((a, b) => a - b),
-            })
-          }
-        />
+        <MainButton text="다음" onPress={onPressNextBtn} />
       </TestContainer>
     </>
   );
