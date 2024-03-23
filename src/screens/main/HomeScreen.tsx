@@ -1,9 +1,11 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
 import FlexBox from "@/components/@common/FlexBox";
-import useHeight from "@/utils/useHeight";
-import { spacing } from "@/constants/spacing";
 import Icons from "@/components/@common/Icons";
+import MainButton from "@/components/@common/MainButton";
+import { spacing } from "@/constants/spacing";
+import useHeight from "@/utils/useHeight";
+import React from "react";
+import { Image, View } from "react-native";
+import styled from "styled-components/native";
 
 const Header = ({
   onPressCalendar,
@@ -48,15 +50,33 @@ const Header = ({
   );
 };
 
+const Container = styled.View`
+  flex: 1;
+`;
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   return (
-    <View>
+    <>
       <Header
         onPressCalendar={() => navigation.navigate("CalendarMain")}
         onPressSettings={() => navigation.navigate("SettingsMain")}
       />
-      <Text>HomeScreen</Text>
-    </View>
+      <Container>
+        <View
+          style={{
+            position: "absolute",
+            bottom: 100,
+            flexDirection: "row",
+            flex: 1,
+            paddingHorizontal: spacing.gutter,
+          }}
+        >
+          <MainButton
+            text="작성하기"
+            onPress={() => navigation.navigate("TestFirst")}
+          />
+        </View>
+      </Container>
+    </>
   );
 };
 
