@@ -72,6 +72,10 @@ export const testSlice = createSlice({
     ) => {
       state.currentTestId = action.payload.testId;
       state.category = action.payload.category;
+
+      state.result.love = [];
+      state.result.effort = [];
+      state.fourthScreenIndex = 0;
     },
     setLove: (state, action) => {
       state.result.love = action.payload;
@@ -89,6 +93,7 @@ export const testSlice = createSlice({
         (item) => item.id === action.payload.id
       )!.percentage = action.payload.percentage;
     },
+    resetTest: (state) => {},
     addEffort: (
       state,
       action: {
@@ -140,6 +145,7 @@ export const {
   setLove,
   setLovePercentage,
   startTest,
+  resetTest,
 } = testSlice.actions;
 
 export default testSlice.reducer;

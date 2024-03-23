@@ -2,6 +2,7 @@ import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
 import Typography from "@/components/@common/Typography";
+import Intro from "@/components/home/Intro";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
@@ -158,16 +159,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         onPressCalendar={() => navigation.navigate("CalendarMain")}
         onPressSettings={() => navigation.navigate("SettingsMain")}
       />
-      <Container>
-        <Image
-          source={require("../../../assets/images/illustration2.png")}
-          style={{
-            width: "100%",
-            height: 250,
-            resizeMode: "contain",
-          }}
-        />
-        <Typography size="md">{nickname}님 환영합니다</Typography>
+      <Container contentContainerStyle={{}}>
+        <Intro nickname={nickname} />
       </Container>
       <GoToTest onPress={onPressWrite} loading={loading} />
     </>

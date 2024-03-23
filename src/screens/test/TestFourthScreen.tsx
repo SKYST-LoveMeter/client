@@ -45,7 +45,7 @@ const LoveListItem = ({
 export default function TestFourthScreen({ navigation }: { navigation: any }) {
   const efforts = useAppSelect((state) => state.test.result.effort);
   const currentIndex = useAppSelect((state) => state.test.fourthScreenIndex);
-
+  const { currentTestId } = useAppSelect((state) => state.test);
   const dispatch = useAppDispatch();
 
   const category = useAppSelect((state) => state.test.category);
@@ -54,7 +54,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
 
   const currentEffort = efforts[currentIndex];
 
-  console.log("currentEffort", currentEffort);
+  // console.log("currentEffort", currentEffort);
 
   const onPressNext = () => {
     if (currentEffort.lovers.length === 0) {
@@ -63,7 +63,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
     }
 
     if (currentIndex === efforts.length - 1) {
-      navigation.push("TestResult");
+      navigation.push("TestResult", { test_id: currentTestId, is_test: true });
     } else {
       dispatch(increaseFourthScreenIndex());
       navigation.push("TestFourth");
@@ -89,7 +89,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
     }
   };
 
-  console.log("currentIndex", currentEffort);
+  // console.log("currentIndex", currentEffort);
 
   return (
     <View

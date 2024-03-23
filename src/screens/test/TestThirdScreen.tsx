@@ -17,7 +17,14 @@ import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { addEffort } from "@/store/modules/test";
 import { showErrorToast } from "@/utils/showToast";
 import React from "react";
-import { Image, ScrollView, TextInput, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styled, { useTheme } from "styled-components/native";
 
@@ -181,7 +188,7 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
   };
 
   const onPressEffortBar = (value: number) => {
-    console.log(value);
+    // console.log(value);
 
     setEffortToAdd({
       ...effotToAdd,
