@@ -7,6 +7,14 @@ import Divider from "@/components/@common/Divider";
 import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import Margin from "@/components/@common/Margin";
+import styled, { ThemeProvider } from "styled-components/native";
+import { THEME } from "@/constants/theme";
+
+const Test = styled.View`
+  background-color: ${({ theme }) => theme.palette.pink};
+  width: 100px;
+  height: 100px;
+`;
 
 export default function App() {
   const [fontsLoaded] = Fonts.useFonts(customFontsToLoad);
@@ -16,27 +24,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Typography size="md" weight="regular" color="black">
-        Hello World
-      </Typography>
-      <Divider></Divider>
-      <Typography size="md" weight="regular" color="black">
-        Hello World
-      </Typography>
-      <Icons type="material" name="home" size={20} color="black"></Icons>
-      <Divider></Divider>
-      <Margin margin={100}></Margin>
-      <FlexBox direction="row" justifyContent="center" alignItems="center">
-        <Typography size="md" weight="regular" color="black">
-          Hello World
-        </Typography>
-        <Typography size="md" weight="regular" color="black">
-          Hello World
-        </Typography>
-      </FlexBox>
-    </View>
+    <ThemeProvider theme={THEME}>
+      <View style={styles.container}>
+        <Typography size="lg">Hello World</Typography>
+        <Typography size="lg">Hello World</Typography>
+        <Test></Test>
+        <Typography size="lg">Hello World</Typography>
+        <Typography size="lg">Hello World</Typography>
+      </View>
+    </ThemeProvider>
   );
 }
 

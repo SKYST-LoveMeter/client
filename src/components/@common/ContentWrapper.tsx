@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { spacing } from "@/constants/spacing";
 
 export default function ContentsWrapper({
   children,
@@ -11,7 +12,7 @@ export default function ContentsWrapper({
   return (
     <View
       style={{
-        paddingHorizontal: GET_MARGIN("h3"),
+        paddingHorizontal: spacing.gutter,
         ...(flex && { flex: 1 }),
       }}
     >

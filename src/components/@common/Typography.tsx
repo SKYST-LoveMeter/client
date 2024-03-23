@@ -54,7 +54,7 @@ const Typography: React.FC<TextProps> = ({
   children,
   size = "md",
   weight = "regular",
-  color = "default",
+  color = "black",
   styles,
 }) => {
   return (
