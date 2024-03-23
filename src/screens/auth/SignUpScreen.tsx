@@ -67,7 +67,7 @@ export default function SignUpScreen() {
   };
 
   const onPressLogin = () => {
-    navigation.navigate("Nickname");
+    navigation.navigate("Login");
   };
 
   const onChangeValue = (
@@ -109,20 +109,20 @@ export default function SignUpScreen() {
       <Margin margin={spacing.gutter} />
       <ContentsWrapper>
         <AuthForm
-          placeholder="dfdf"
+          placeholder="id 입력"
           text={form.id}
           onChange={(text) => onChangeValue("id", text)}
         />
         <Margin margin={spacing.padding} />
         <AuthForm
-          placeholder="dfdf"
+          placeholder="비밀번호"
           text={form.password}
           onChange={(text) => onChangeValue("password", text)}
         />
         <Margin margin={spacing.padding} />
 
         <AuthForm
-          placeholder="dfdf"
+          placeholder="비밀번호 확인"
           text={form.passwordCheck}
           onChange={(text) => onChangeValue("passwordCheck", text)}
         />

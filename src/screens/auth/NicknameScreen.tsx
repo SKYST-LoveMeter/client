@@ -16,6 +16,7 @@ import { AuthStackParamList } from "@/navigators/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { storeData } from "@/utils/storage";
+import { logError } from "@/utils/logError";
 
 export default function NicknameScreen() {
   const form = useAppSelect((state) => state.auth.signUpForm);
@@ -27,58 +28,59 @@ export default function NicknameScreen() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const onPressSignUp = async () => {
-    navigation.navigate("MainStack", {
-      screen: "Home",
-    });
-  };
-
   // const onPressSignUp = async () => {
-  //   let hasError = false;
-
-  //   if (loading) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-
-  //   if (form.nickname === "") {
-  //     showErrorToast("닉네임을 입력해주세요.");
-  //     hasError = true;
-  //   }
-
-  //   if (hasError) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await Client.post("/signup", {
-  //       username: form.id,
-  //       password1: form.password,
-  //       real_name: form.nickname,
-  //     });
-
-  //     if (response.status === 200) {
-  //       if (!response.data.access) {
-  //         throw new Error("Token is not provided");
-  //       }
-
-  //       await storeData("token", response.data.access);
-
-  //       dispatch(addToken(response.data.access));
-
-  //       navigation.navigate("MainStack", {
-  //         screen: "Home",
-  //       });
-  //     } else {
-  //       showErrorToast("회원가입에 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
+  //   navigation.navigate("MainStack", {
+  //     screen: "Home",
+  //   });
   // };
+
+  const onPressSignUp = async () => {
+    let hasError = false;
+
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    if (form.nickname === "") {
+      showErrorToast("닉네임을 입력해주세요.");
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    try {
+      const response = await Client.post("/users/signup/", {
+        username: form.id,
+        password: form.password,
+        real_name: form.nickname,
+      });
+
+      if (response.status === 200) {
+        if (!response.data.access) {
+          throw new Error("Token is not provided");
+        }
+
+        await storeData("token", response.data.access);
+
+        dispatch(addToken(response.data.access));
+
+        navigation.navigate("MainStack", {
+          screen: "Home",
+        });
+      } else {
+        showErrorToast("회원가입에 실패했습니다.");
+      }
+    } catch (error) {
+      logError(error);
+      showErrorToast("회원가입에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onChangeValue = (
     key: "id" | "password" | "passwordCheck" | "nickname",
@@ -124,7 +126,11 @@ export default function NicknameScreen() {
           onChange={(text) => onChangeValue("nickname", text)}
         />
         <Margin margin={100} />
-        <MainButton text="회원가입" onPress={onPressSignUp} />
+        <MainButton
+          text="회원가입"
+          onPress={onPressSignUp}
+          isLoading={loading}
+        />
       </ContentsWrapper>
     </View>
   );

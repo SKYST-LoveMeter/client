@@ -18,6 +18,7 @@ import { addToken, loginThunk } from "@/store/modules/auth";
 import { Client } from "@/utils/api";
 import { showErrorToast } from "@/utils/showToast";
 import { storeData } from "@/utils/storage";
+import { logError } from "@/utils/logError";
 
 const LoginScreen = () => {
   const navigation =
@@ -32,48 +33,49 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = React.useState(false);
 
-  const onPressLogin = async () => {
-    navigation.navigate("MainStack", {
-      screen: "Home",
-    });
-  };
-
   // const onPressLogin = async () => {
-  //   if (loading) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await Client.post<{
-  //       access: string;
-  //     }>("/login", {
-  //       params: {
-  //         username: form.id,
-  //         password: form.password,
-  //       },
-  //     });
-
-  //     if (response.status === 200) {
-  //       if (!response.data.access) {
-  //         throw new Error("Token is not provided");
-  //       }
-  //       await storeData("token", response.data.access);
-  //       dispatch(addToken(response.data.access));
-
-  //       navigation.navigate("MainStack", {
-  //         screen: "Home",
-  //       });
-  //     } else {
-  //       showErrorToast("로그인에 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     showErrorToast("로그인에 실패했습니다.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
+  //   navigation.navigate("MainStack", {
+  //     screen: "Home",
+  //   });
   // };
+
+  const onPressLogin = async () => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await Client.post<{
+        access: string;
+      }>("/users/login/", {
+        params: {
+          username: form.id,
+          password: form.password,
+        },
+      });
+
+      if (response.status === 200) {
+        if (!response.data.access) {
+          throw new Error("Token is not provided");
+        }
+        await storeData("token", response.data.access);
+        dispatch(addToken(response.data.access));
+
+        navigation.navigate("MainStack", {
+          screen: "Home",
+        });
+      } else {
+        showErrorToast("로그인에 실패했습니다.");
+      }
+    } catch (error) {
+      logError(error);
+      showErrorToast("로그인에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onPressSignUp = () => {
     navigation.navigate("SignUp");
@@ -106,7 +108,7 @@ const LoginScreen = () => {
       <Margin margin={spacing.gutter} />
       <ContentsWrapper>
         <AuthForm
-          placeholder="dfdf"
+          placeholder="아이디 입력"
           text={form.id}
           onChange={(text) => {
             setForm({
@@ -117,7 +119,7 @@ const LoginScreen = () => {
         />
         <Margin margin={spacing.padding} />
         <AuthForm
-          placeholder="dfdf"
+          placeholder="패스워드 입력"
           text={form.password}
           onChange={(text) => {
             setForm({

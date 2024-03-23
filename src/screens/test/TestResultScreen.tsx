@@ -3,9 +3,15 @@ import React, { useEffect } from "react";
 import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
 import Margin from "@/components/@common/Margin";
+import { Client } from "@/utils/api";
+import { useAppSelect } from "@/store/configureStore.hooks";
 
 export default function TestResultScreen() {
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const test = useAppSelect((state) => state.test);
+
+  const sendResult = () => {};
 
   useEffect(() => {
     setIsLoading(true);
