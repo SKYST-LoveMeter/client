@@ -70,7 +70,7 @@ export default function TestResultScreen({
 
     try {
       const response = await Client.post<{}>(
-        `test/${test.currentTestId}/result_view`,
+        `test/${test_id}/result_view`,
         {},
         {
           headers: {
