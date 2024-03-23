@@ -1,5 +1,6 @@
 import CalendarMainScreen from "@/screens/main/CalendarMainScreen";
 import HomeScreen from "@/screens/main/HomeScreen";
+import ResultScreen from "@/screens/main/ResultScreen";
 import SettingsMainScreen from "@/screens/main/SettingsMainScreen";
 import TestFirstScreen from "@/screens/test/TestFirstScreen";
 import TestSecondScreen from "@/screens/test/TestSecondScreen";
@@ -19,6 +20,7 @@ export const MainStack = () => {
       <Stack.Screen name="SettingsMain" component={SettingsMainScreen} />
       <Stack.Screen name="TestFirst" component={TestFirstScreen} />
       <Stack.Screen name="TestSecond" component={TestSecondScreen} />
+      <Stack.Screen name="Result" component={ResultScreen} />
     </Stack.Navigator>
   );
 };
