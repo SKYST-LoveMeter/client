@@ -1,32 +1,24 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import React from "react";
-import PageHeader from "@/components/@common/PageHeader";
 import ContentsWrapper, {
   CenteredContentsWrapper,
 } from "@/components/@common/ContentWrapper";
-import Typography from "@/components/@common/Typography";
-import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
-import styled, { useTheme } from "styled-components/native";
-
-import Shadow from "react-native-shadow-2";
 import FlexBox from "@/components/@common/FlexBox";
-import Margin from "@/components/@common/Margin";
-import { spacing } from "@/constants/spacing";
-import MainButton from "@/components/@common/MainButton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useModal } from "@/hooks/useModal";
-import AddEffortModal from "@/components/AddEffortModal";
 import Icons from "@/components/@common/Icons";
+import MainButton from "@/components/@common/MainButton";
+import Margin from "@/components/@common/Margin";
+import PageHeader from "@/components/@common/PageHeader";
+import Typography from "@/components/@common/Typography";
+import AddEffortModal from "@/components/AddEffortModal";
 import AddEffortValueModal from "@/components/AddEffortValueModal";
+import TestContainer from "@/components/test/TestContainer";
+import { spacing } from "@/constants/spacing";
+import { useModal } from "@/hooks/useModal";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { addEffort } from "@/store/modules/test";
 import { showErrorToast } from "@/utils/showToast";
+import React from "react";
+import { TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import styled, { useTheme } from "styled-components/native";
 
 const EffortBox = styled.View`
   display: flex;
@@ -207,24 +199,22 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
     <View
       style={{
         flex: 1,
-        marginBottom: bottom,
       }}
     >
       <PageHeader />
-
-      <ContentsWrapper>
+      <TestContainer>
+        {/* <ContentsWrapper> */}
         <CenteredContentsWrapper>
           <Typography>현재 몰두하고 있는 것들을</Typography>
           <Typography>10가지 이내로 적어주세요</Typography>
         </CenteredContentsWrapper>
-      </ContentsWrapper>
-      <Margin margin={spacing.gutter} />
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <ContentsWrapper>
+        {/* </ContentsWrapper> */}
+        <Margin margin={spacing.gutter} />
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
           <EffortScrollView
             contentContainerStyle={{
               rowGap: spacing.padding + 5,
@@ -244,11 +234,10 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
               </Typography>
             </AddBtn>
           </EffortScrollView>
-        </ContentsWrapper>
-      </View>
-      <ContentsWrapper>
+        </View>
         <MainButton text="다음" onPress={onPressNextBtn} />
-      </ContentsWrapper>
+      </TestContainer>
+
       <AddEffortModal
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}

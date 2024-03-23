@@ -16,6 +16,7 @@ import {
 } from "@/store/modules/test";
 import Icons from "@/components/@common/Icons";
 import TestContainer from "@/components/test/TestContainer";
+import { showErrorToast } from "@/utils/showToast";
 
 const LoveListItemBox = styled.Pressable<{ isSelected: boolean }>`
   padding: 10px 30px;
@@ -53,6 +54,11 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
   const currentEffort = efforts[currentIndex];
 
   const onPressNext = () => {
+    if (currentEffort.lovers.length === 0) {
+      showErrorToast("하나 이상 선택해주세요");
+      return;
+    }
+
     if (currentIndex === efforts.length - 1) {
       navigation.push("TestResult");
     } else {
