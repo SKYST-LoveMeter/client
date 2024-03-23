@@ -16,21 +16,17 @@ const Container = styled.TouchableOpacity`
   width: ${(clientWidth - spacing.gutter * 3) / 2}px;
 `;
 
-const Box = () => {
+const Box = ({ testId, date }: { testId: number; date: string }) => {
   const navigation = useNavigation();
-  const { test_id, created_at } = {
-    test_id: 1,
-    created_at: "2021-03-12T00:00:00.000Z",
-  };
 
   return (
     <Container
       onPress={() =>
-        navigation.navigate("TestResult", { test_id, is_test: false })
+        navigation.navigate("TestResult", { test_id: testId, is_test: false })
       }
     >
       <Typography size="md" styles={{ textAlign: "center" }}>
-        {formatDate(created_at)}의 기록
+        {formatDate(date)}의 기록
       </Typography>
     </Container>
   );

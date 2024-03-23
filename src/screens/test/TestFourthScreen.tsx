@@ -1,23 +1,21 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
-import PageHeader from "@/components/@common/PageHeader";
-import ContentsWrapper, {
-  CenteredContentsWrapper,
-} from "@/components/@common/ContentWrapper";
-import Typography from "@/components/@common/Typography";
-import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
-import styled from "styled-components/native";
+import ContentsWrapper from "@/components/@common/ContentWrapper";
+import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
 import Margin from "@/components/@common/Margin";
+import PageHeader from "@/components/@common/PageHeader";
+import Typography from "@/components/@common/Typography";
+import TestContainer from "@/components/test/TestContainer";
+import TestQuestionText from "@/components/test/TestQuestionText";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import {
   ToggleLoversToCurrentEffort,
   decreaseFourthScreenIndex,
   increaseFourthScreenIndex,
 } from "@/store/modules/test";
-import Icons from "@/components/@common/Icons";
-import TestContainer from "@/components/test/TestContainer";
 import { showErrorToast } from "@/utils/showToast";
-import TestQuestionText from "@/components/test/TestQuestionText";
+import React from "react";
+import { Image, View } from "react-native";
+import styled from "styled-components/native";
 
 const LoveListItemBox = styled.Pressable<{ isSelected: boolean }>`
   padding: 10px 30px;
