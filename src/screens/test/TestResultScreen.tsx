@@ -11,18 +11,12 @@ import { spacing } from "@/constants/spacing";
 import MainButton from "@/components/@common/MainButton";
 
 const dummy = [
-  {
-    name: "부모님",
-    percentage: 20,
-  },
-  {
-    name: "연인",
-    percentage: 40,
-  },
-  {
-    name: "나",
-    percentage: 20,
-  },
+  { name: "자신", percentage: 50 },
+  { name: "애완동물", percentage: 0 },
+  { name: "친구", percentage: 50 },
+  { name: "자신", percentage: 50 },
+  { name: "애완동물", percentage: 0 },
+  { name: "친구", percentage: 50 },
 ];
 
 export default function TestResultScreen({ navigation }: { navigation: any }) {
@@ -71,8 +65,7 @@ export default function TestResultScreen({ navigation }: { navigation: any }) {
         flex: 1,
       }}
     >
-      {/* <PageHeader headerLeftShown={false} /> */}
-      <PageHeader />
+      <PageHeader headerLeftShown={false} />
 
       {isLoading ? (
         <>

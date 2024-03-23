@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React from "react";
 import PageHeader from "@/components/@common/PageHeader";
 import ContentsWrapper, {
@@ -17,6 +17,7 @@ import {
 import Icons from "@/components/@common/Icons";
 import TestContainer from "@/components/test/TestContainer";
 import { showErrorToast } from "@/utils/showToast";
+import TestQuestionText from "@/components/test/TestQuestionText";
 
 const LoveListItemBox = styled.Pressable<{ isSelected: boolean }>`
   padding: 10px 30px;
@@ -108,13 +109,22 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
         }
       />
       <TestContainer>
-        <ContentsWrapper>
-          <CenteredContentsWrapper>
-            <Typography size="md">00님이 현재 몰두하고 있는</Typography>
-            <Typography size="md">{currentEffort.description}는</Typography>
-            <Typography size="md">무엇을 위해 하고있나요?</Typography>
-          </CenteredContentsWrapper>
-          <Margin margin={20} />
+        <Image
+          source={require("../../../assets/images/illustration4.png")}
+          style={{
+            width: "70%",
+            height: 300,
+            resizeMode: "contain",
+            alignSelf: "center",
+          }}
+        />
+        {/* <ContentsWrapper> */}
+        <View style={{ flex: 1 }}>
+          <TestQuestionText
+            text={`00님이 현재 몰두하고 있는 ${currentEffort.description}는 무엇을 위해 하고있나요?`}
+          />
+
+          <Margin margin={30} />
           <View
             style={{
               display: "flex",
@@ -122,6 +132,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
               width: "100%",
               flexWrap: "wrap",
               gap: 10,
+              justifyContent: "center",
             }}
           >
             {loveList.map((love) => (
@@ -135,7 +146,8 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
               ></LoveListItem>
             ))}
           </View>
-        </ContentsWrapper>
+        </View>
+        {/* </ContentsWrapper> */}
         <ContentsWrapper>
           <MainButton
             onPress={onPressNext}
