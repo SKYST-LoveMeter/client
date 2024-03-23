@@ -1,8 +1,7 @@
+import { useAppSelect } from "@/store/configureStore.hooks";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthStack } from "./AuthStack";
 import { MainStack } from "./MainStack";
-import { useSelector } from "react-redux";
-import { useAppSelect } from "@/store/configureStore.hooks";
 
 const Stack = createNativeStackNavigator();
 

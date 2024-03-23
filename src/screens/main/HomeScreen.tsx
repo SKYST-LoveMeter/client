@@ -1,7 +1,6 @@
 import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
-import Loading from "@/components/test/Loading";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
@@ -38,6 +37,7 @@ const Header = ({
           resizeMode: "contain",
         }}
       />
+
       <FlexBox gap={spacing.offset}>
         <Icons
           name="calendar-month"
@@ -56,9 +56,28 @@ const Header = ({
   );
 };
 
-const Container = styled.View`
-  flex: 1;
-`;
+const Container = styled.ScrollView``;
+
+const GoToTest = ({
+  onPress,
+  loading,
+}: {
+  onPress: () => void;
+  loading: boolean;
+}) => (
+  <View
+    style={{
+      position: "absolute",
+      bottom: 100,
+      flexDirection: "row",
+      flex: 1,
+      paddingHorizontal: spacing.gutter,
+    }}
+  >
+    <MainButton text="작성하기" onPress={onPress} isLoading={loading} />
+  </View>
+);
+
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
 
@@ -123,22 +142,16 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         onPressSettings={() => navigation.navigate("SettingsMain")}
       />
       <Container>
-        <View
+        <Image
+          source={require("../../../assets/images/illustration2.png")}
           style={{
-            position: "absolute",
-            bottom: 100,
-            flexDirection: "row",
-            flex: 1,
-            paddingHorizontal: spacing.gutter,
+            width: "100%",
+            height: 250,
+            resizeMode: "contain",
           }}
-        >
-          <MainButton
-            text="작성하기"
-            onPress={onPressWrite}
-            isLoading={loading}
-          />
-        </View>
+        />
       </Container>
+      <GoToTest onPress={onPressWrite} loading={loading} />
     </>
   );
 };
