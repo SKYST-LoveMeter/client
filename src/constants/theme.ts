@@ -1,7 +1,10 @@
 import { DefaultTheme } from "styled-components/native";
 
 export const palette = {
-  pink: "#FF69B4",
+  pink: "#FFB5B5",
+  pink_sub: "#FFF1F1",
+  black: "#000000",
+  white: "#FFFFFF",
 } as const;
 
 export const THEME = {
