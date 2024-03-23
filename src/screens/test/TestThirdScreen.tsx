@@ -10,13 +10,21 @@ import Typography from "@/components/@common/Typography";
 import AddEffortModal from "@/components/AddEffortModal";
 import AddEffortValueModal from "@/components/AddEffortValueModal";
 import TestContainer from "@/components/test/TestContainer";
+import TestQuestionText from "@/components/test/TestQuestionText";
 import { spacing } from "@/constants/spacing";
 import { useModal } from "@/hooks/useModal";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { addEffort } from "@/store/modules/test";
 import { showErrorToast } from "@/utils/showToast";
 import React from "react";
-import { TextInput, View } from "react-native";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styled, { useTheme } from "styled-components/native";
 
@@ -180,7 +188,7 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
   };
 
   const onPressEffortBar = (value: number) => {
-    console.log(value);
+    // console.log(value);
 
     setEffortToAdd({
       ...effotToAdd,
@@ -205,41 +213,47 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
       }}
     >
       <PageHeader />
-      <TestContainer>
-        {/* <ContentsWrapper> */}
-        <CenteredContentsWrapper>
-          <Typography size="md">현재 몰두하고 있는 것들을</Typography>
-          <Typography size="md">10가지 이내로 적어주세요</Typography>
-        </CenteredContentsWrapper>
-        {/* </ContentsWrapper> */}
-        <Margin margin={spacing.gutter} />
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <EffortScrollView
-            contentContainerStyle={{
-              rowGap: spacing.padding + 5,
-              paddingBottom: 40,
+      <ScrollView>
+        <TestContainer>
+          <Image
+            source={require("../../../assets/images/illustration3.png")}
+            style={{
+              width: "70%",
+              height: 300,
+              resizeMode: "contain",
+              alignSelf: "center",
+            }}
+          />
+          {/* <ContentsWrapper> */}
+          <CenteredContentsWrapper>
+            <TestQuestionText text="현재 몰두하고 있는 것들을 10가지 이내로 적어주세요" />
+          </CenteredContentsWrapper>
+          {/* </ContentsWrapper> */}
+          <Margin margin={spacing.gutter} />
+          <View
+            style={{
+              flex: 1,
+              paddingBottom: 30,
             }}
           >
-            {result.effort.map((effort, index) => (
-              <Effort
-                key={index}
-                description={effort.description}
-                value={effort.value}
-              ></Effort>
-            ))}
+            <View style={{ gap: spacing.padding + 5, paddingBottom: 40 }}>
+              {result.effort.map((effort, index) => (
+                <Effort
+                  key={index}
+                  description={effort.description}
+                  value={effort.value}
+                ></Effort>
+              ))}
+            </View>
             <AddBtn onPress={onPressAddEffortBtn}>
               <Typography size="md" color={theme.palette.gray_sub}>
                 +추가하세요
               </Typography>
             </AddBtn>
-          </EffortScrollView>
-        </View>
-        <MainButton text="다음" onPress={onPressNextBtn} />
-      </TestContainer>
+          </View>
+          <MainButton text="다음" onPress={onPressNextBtn} />
+        </TestContainer>
+      </ScrollView>
 
       <AddEffortModal
         isVisible={isModalVisible}

@@ -2,14 +2,16 @@ import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
 import Typography from "@/components/@common/Typography";
+import Intro from "@/components/home/Intro";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
+import { setUserInfo } from "@/store/modules/auth";
 import { startTest } from "@/store/modules/test";
 import { Client } from "@/utils/api";
 import { logError } from "@/utils/logError";
 import { showErrorToast } from "@/utils/showToast";
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, View } from "react-native";
 import styled from "styled-components/native";
 
@@ -81,11 +83,29 @@ const GoToTest = ({
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
-  const { nickname } = useAppSelect((state) => state.auth.signUpForm);
+  const { nickname } = useAppSelect((state) => state.auth);
 
   const [loading, setLoading] = React.useState(false);
 
   const token = useAppSelect((state) => state.auth.token);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await Client.get("/users/info/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        dispatch(setUserInfo(response.data.username));
+      } else {
+        throw new Error("error");
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const onPressWrite = async () => {
     // if (!token) {
@@ -139,16 +159,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         onPressCalendar={() => navigation.navigate("CalendarMain")}
         onPressSettings={() => navigation.navigate("SettingsMain")}
       />
-      <Container>
-        <Image
-          source={require("../../../assets/images/illustration2.png")}
-          style={{
-            width: "100%",
-            height: 250,
-            resizeMode: "contain",
-          }}
-        />
-        <Typography size="md">{nickname}님 환영합니다</Typography>
+      <Container contentContainerStyle={{}}>
+        <Intro nickname={nickname} />
       </Container>
       <GoToTest onPress={onPressWrite} loading={loading} />
     </>

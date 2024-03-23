@@ -106,8 +106,8 @@ export const MyPieChart = ({ title }: { title: string }) => {
             top: 20,
           }}
         >
-          {data.map((_, index) => (
-            <Legend index={index} />
+          {data.map((d, index) => (
+            <Legend index={index} key={d.name} />
           ))}
         </View>
       </FlexBox>
