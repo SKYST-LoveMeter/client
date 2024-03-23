@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, ScrollView } from "react-native";
 import React, { useEffect } from "react";
 import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
@@ -6,8 +6,26 @@ import Margin from "@/components/@common/Margin";
 import { Client } from "@/utils/api";
 import { useAppSelect } from "@/store/configureStore.hooks";
 import { logError } from "@/utils/logError";
+import { MyPieChart } from "@/components/test/PieChart";
+import { spacing } from "@/constants/spacing";
+import MainButton from "@/components/@common/MainButton";
 
-export default function TestResultScreen() {
+const dummy = [
+  {
+    name: "부모님",
+    percentage: 20,
+  },
+  {
+    name: "연인",
+    percentage: 40,
+  },
+  {
+    name: "나",
+    percentage: 20,
+  },
+];
+
+export default function TestResultScreen({ navigation }: { navigation: any }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const test = useAppSelect((state) => state.test);
@@ -53,7 +71,8 @@ export default function TestResultScreen() {
         flex: 1,
       }}
     >
-      <PageHeader headerLeftShown={false}></PageHeader>
+      {/* <PageHeader headerLeftShown={false} /> */}
+      <PageHeader />
 
       {isLoading ? (
         <>
@@ -72,17 +91,23 @@ export default function TestResultScreen() {
           </View>
         </>
       ) : (
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <Typography size="lg" weight="bold">
-            결과
-          </Typography>
-          <Margin margin={20} />
-          <Text>결과 내용</Text>
-        </View>
+        <ScrollView>
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: spacing.gutter,
+            }}
+          >
+            <Margin margin={20} />
+            <MyPieChart title="결과" />
+            <MyPieChart title="결과" />
+            <Margin margin={30} />
+            <MainButton
+              text="홈으로 가기"
+              onPress={() => navigation.navigate("Home")}
+            />
+          </View>
+        </ScrollView>
       )}
     </View>
   );

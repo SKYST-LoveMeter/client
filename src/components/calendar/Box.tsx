@@ -18,7 +18,7 @@ const Container = styled.TouchableOpacity`
 const Box = () => {
   const navigation = useNavigation();
   return (
-    <Container onPress={() => navigation.navigate("Result")}>
+    <Container onPress={() => navigation.navigate("TestResult")}>
       <Typography size="md" styles={{ textAlign: "center" }}>
         Box
       </Typography>

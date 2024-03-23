@@ -1,6 +1,7 @@
 import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
+import Typography from "@/components/@common/Typography";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
@@ -80,6 +81,7 @@ const GoToTest = ({
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
+  const { nickname } = useAppSelect((state) => state.auth.signUpForm);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -99,15 +101,11 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
           [key: string]: string;
         };
         test_id: number;
-      }>(
-        "/test/",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      }>("/test/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 200) {
         console.log(response.data);
@@ -150,6 +148,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             resizeMode: "contain",
           }}
         />
+        <Typography size="md">{nickname}님 환영합니다</Typography>
       </Container>
       <GoToTest onPress={onPressWrite} loading={loading} />
     </>

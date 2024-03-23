@@ -26,7 +26,6 @@ export const MainStack = () => {
       <Stack.Screen name="TestThird" component={TestThirdScreen} />
       <Stack.Screen name="TestFourth" component={TestFourthScreen} />
       <Stack.Screen name="TestResult" component={TestResultScreen} />
-      <Stack.Screen name="Result" component={ResultScreen} />
     </Stack.Navigator>
   );
 };

@@ -53,6 +53,8 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
 
   const currentEffort = efforts[currentIndex];
 
+  console.log("currentEffort", currentEffort);
+
   const onPressNext = () => {
     if (currentEffort.lovers.length === 0) {
       showErrorToast("하나 이상 선택해주세요");

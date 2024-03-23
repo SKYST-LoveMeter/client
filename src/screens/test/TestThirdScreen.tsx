@@ -108,6 +108,7 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
   const [effotToAdd, setEffortToAdd] = React.useState({
     description: "",
     value: 1,
+    lovers: [],
   });
 
   const onPressNextBtn = () => {
@@ -152,6 +153,7 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
     setEffortToAdd({
       description: "",
       value: 1,
+      lovers: [],
     });
   };
 
@@ -190,6 +192,7 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
     setEffortToAdd({
       description: "",
       value: 1,
+      lovers: [],
     });
 
     closeValueModal();
@@ -205,8 +208,8 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
       <TestContainer>
         {/* <ContentsWrapper> */}
         <CenteredContentsWrapper>
-          <Typography>현재 몰두하고 있는 것들을</Typography>
-          <Typography>10가지 이내로 적어주세요</Typography>
+          <Typography size="md">현재 몰두하고 있는 것들을</Typography>
+          <Typography size="md">10가지 이내로 적어주세요</Typography>
         </CenteredContentsWrapper>
         {/* </ContentsWrapper> */}
         <Margin margin={spacing.gutter} />
