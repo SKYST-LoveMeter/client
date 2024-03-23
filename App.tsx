@@ -9,6 +9,8 @@ import Icons from "@/components/@common/Icons";
 import Margin from "@/components/@common/Margin";
 import styled, { ThemeProvider } from "styled-components/native";
 import { THEME } from "@/constants/theme";
+import { NavigationContainer } from "@react-navigation/native";
+import { RootStackNav } from "@/navigators/RootStackNav";
 
 const Test = styled.View`
   background-color: ${({ theme }) => theme.palette.pink};
@@ -24,15 +26,9 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={THEME}>
-      <View style={styles.container}>
-        <Typography size="lg">Hello World</Typography>
-        <Typography size="lg">Hello World</Typography>
-        <Test></Test>
-        <Typography size="lg">Hello World</Typography>
-        <Typography size="lg">Hello World</Typography>
-      </View>
-    </ThemeProvider>
+    <NavigationContainer>
+      <RootStackNav />
+    </NavigationContainer>
   );
 }
 
