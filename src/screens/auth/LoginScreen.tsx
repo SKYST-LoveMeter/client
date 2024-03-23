@@ -1,10 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function SubScreen() {
+const LoginScreen = () => {
   return (
     <View>
-      <Text>SubScreen</Text>
+      <Text>LoginScreen</Text>
     </View>
   );
-}
+};
+
+export default LoginScreen;
