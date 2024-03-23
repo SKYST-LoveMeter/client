@@ -3,6 +3,7 @@ import HomeScreen from "@/screens/main/HomeScreen";
 import SettingsMainScreen from "@/screens/main/SettingsMainScreen";
 import TestFirstScreen from "@/screens/test/TestFirstScreen";
 import TestFourthScreen from "@/screens/test/TestFourthScreen";
+import TestResultScreen from "@/screens/test/TestResultScreen";
 import TestSecondScreen from "@/screens/test/TestSecondScreen";
 import TestThirdScreen from "@/screens/test/TestThirdScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,6 +24,7 @@ export const MainStack = () => {
       <Stack.Screen name="TestSecond" component={TestSecondScreen} />
       <Stack.Screen name="TestThird" component={TestThirdScreen} />
       <Stack.Screen name="TestFourth" component={TestFourthScreen} />
+      <Stack.Screen name="TestResult" component={TestResultScreen} />
     </Stack.Navigator>
   );
 };

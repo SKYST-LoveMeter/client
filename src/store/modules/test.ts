@@ -1,6 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface TInitialState {
+  category: {
+    [key: number]: string;
+  };
+  result: {
+    love: {
+      id: number;
+      percentage: number;
+    }[];
+    effort: {
+      description: string;
+      value: number;
+      lovers: number[];
+    }[];
+  };
+  fourthScreenIndex: number;
+  meta: {
+    isResultLoading: boolean;
+  };
+}
+
+const initialState: TInitialState = {
   category: {
     1: "나",
     2: "가족",
@@ -20,18 +41,39 @@ const initialState = {
       },
     ],
     effort: [
-      // {
-      //   description: "프로젝트1",
-      //   value: 3,
-      // },
-      // {
-      //   description: "프로젝트2",
-      //   value: 1,
-      // },
+      {
+        description: "11111",
+        value: 3,
+        lovers: [],
+      },
+      {
+        description: "2222",
+        value: 1,
+        lovers: [],
+      },
+      {
+        description: "3333",
+        value: 2,
+        lovers: [],
+      },
     ],
   },
   fourthScreenIndex: 0,
+  meta: {
+    isResultLoading: false,
+  },
 };
+
+export const sendTestResultThunk = createAsyncThunk(
+  "test/sendTestResult",
+  async (data: any, { dispatch }) => {
+    // const response = await api.post("/test", data);
+    // const result = response.data;
+    // dispatch(renderResult(result));
+
+    return data;
+  }
+);
 
 export const testSlice = createSlice({
   name: "auth",
@@ -43,9 +85,42 @@ export const testSlice = createSlice({
     addEffort: (state, action) => {
       state.result.effort.push(action.payload);
     },
+    increaseFourthScreenIndex: (state) => {
+      state.fourthScreenIndex += 1;
+    },
+    decreaseFourthScreenIndex: (state) => {
+      state.fourthScreenIndex -= 1;
+    },
+    ToggleLoversToCurrentEffort: (
+      state,
+      action: {
+        payload: {
+          loverId: number;
+        };
+      }
+    ) => {
+      const { loverId } = action.payload;
+      const currentEffort = state.result.effort[state.fourthScreenIndex];
+
+      const currentLovers = currentEffort.lovers;
+
+      if (currentLovers.includes(loverId)) {
+        currentEffort.lovers = currentLovers.filter(
+          (lover) => lover !== loverId
+        );
+      } else {
+        currentEffort.lovers.push(loverId);
+      }
+    },
   },
 });
 
-export const { renderCategory, addEffort } = testSlice.actions;
+export const {
+  renderCategory,
+  addEffort,
+  increaseFourthScreenIndex,
+  decreaseFourthScreenIndex,
+  ToggleLoversToCurrentEffort,
+} = testSlice.actions;
 
 export default testSlice.reducer;
