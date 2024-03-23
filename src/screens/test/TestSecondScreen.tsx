@@ -10,7 +10,7 @@ import { spacing } from "@/constants/spacing";
 import { THEME } from "@/constants/theme";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { setLove } from "@/store/modules/test";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 
 const PercentageControlBox = ({ id, name }: { id: number; name: string }) => {
@@ -40,7 +40,10 @@ const TestSecondScreen = ({
   };
 }) => {
   const { selectedCat } = route.params; // [1, 4]
-  const { category } = useAppSelect((state) => state.test);
+  const {
+    category,
+    result: { love },
+  } = useAppSelect((state) => state.test);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -50,13 +53,19 @@ const TestSecondScreen = ({
     }));
     dispatch(setLove(loveArr));
   }, [selectedCat]);
+
+  const [totalPercent, setTotalPercent] = useState(0);
+  useEffect(() => {
+    setTotalPercent(love.reduce((acc, cur) => acc + cur.percentage, 0));
+    console.log(totalPercent);
+  }, [love]);
   return (
     <>
       <PageHeader />
       <TestContainer>
         <View style={{ gap: spacing.gutter, paddingTop: 50 }}>
           <TestQuestionText text="내가 사랑하고 있는 사람들이 나에게 얼마나 중요한지 분배해주세요" />
-          <ProgressBar ratio={20} />
+          <ProgressBar ratio={totalPercent} />
           <View>
             {selectedCat.map((id) => (
               <PercentageControlBox key={id} name={category[id]} id={id} />
