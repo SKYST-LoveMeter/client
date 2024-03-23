@@ -1,17 +1,15 @@
-import { View, Text, ActivityIndicator, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import MainButton from "@/components/@common/MainButton";
+import Margin from "@/components/@common/Margin";
 import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
-import Margin from "@/components/@common/Margin";
-import { Client } from "@/utils/api";
-import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
-import { logError } from "@/utils/logError";
+import Loading from "@/components/test/Loading";
 import { MyPieChart } from "@/components/test/PieChart";
 import { spacing } from "@/constants/spacing";
-import MainButton from "@/components/@common/MainButton";
-import Loading from "@/components/test/Loading";
-import FlexBox from "@/components/@common/FlexBox";
-import { resetTest } from "@/store/modules/test";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
+import { Client } from "@/utils/api";
+import { logError } from "@/utils/logError";
+import React, { useEffect } from "react";
+import { ScrollView, View } from "react-native";
 
 const dummy = [
   { name: "자신", percentage: 50 },
@@ -84,7 +82,31 @@ export default function TestResultScreen({
     }
   };
 
-  const readResult = async () => {};
+  const readResult = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await Client.post<{}>(
+        `test/${test.currentTestId}/result_view`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // 받아서 작업하가ㅣ.
+
+        console.log("read", response.data);
+      }
+    } catch (e) {
+      logError(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     is_test ? sendResult() : readResult();
