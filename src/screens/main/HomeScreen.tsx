@@ -59,7 +59,9 @@ const Header = ({
   );
 };
 
-const Container = styled.ScrollView``;
+const Container = styled.View`
+  flex: 1;
+`;
 
 const GoToTest = ({
   onPress,
