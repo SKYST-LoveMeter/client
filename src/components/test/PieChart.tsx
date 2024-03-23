@@ -44,6 +44,8 @@ const Legend = ({
   const navigation = useNavigation();
 
   const onPress = () => {
+    console.log("pressed legedn");
+
     navigation.navigate("TestDetail", {
       love_id: data.id,
       name: data.name,
