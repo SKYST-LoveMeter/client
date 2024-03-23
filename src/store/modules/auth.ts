@@ -25,6 +25,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: null,
+    nickname: "",
     isLoggedIn: false,
     signUpForm: {
       id: "",
@@ -64,11 +65,19 @@ export const authSlice = createSlice({
         passwordCheck: "",
       };
     },
+    setUserInfo: (state, action) => {
+      state.nickname = action.payload;
+    },
     logout: (state) => {},
   },
 });
 
-export const { onChangeSignUpForm, logout, addToken, resetSignUpForm } =
-  authSlice.actions;
+export const {
+  onChangeSignUpForm,
+  setUserInfo,
+  logout,
+  addToken,
+  resetSignUpForm,
+} = authSlice.actions;
 
 export default authSlice.reducer;

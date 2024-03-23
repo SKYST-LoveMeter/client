@@ -1,22 +1,21 @@
-import { View, Text } from "react-native";
-import React from "react";
-import PageHeader from "@/components/@common/PageHeader";
-import ContentsWrapper, {
-  CenteredContentsWrapper,
-} from "@/components/@common/ContentWrapper";
-import Typography from "@/components/@common/Typography";
-import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
-import styled from "styled-components/native";
+import ContentsWrapper from "@/components/@common/ContentWrapper";
+import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
 import Margin from "@/components/@common/Margin";
+import PageHeader from "@/components/@common/PageHeader";
+import Typography from "@/components/@common/Typography";
+import TestContainer from "@/components/test/TestContainer";
+import TestQuestionText from "@/components/test/TestQuestionText";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import {
   ToggleLoversToCurrentEffort,
   decreaseFourthScreenIndex,
   increaseFourthScreenIndex,
 } from "@/store/modules/test";
-import Icons from "@/components/@common/Icons";
-import TestContainer from "@/components/test/TestContainer";
 import { showErrorToast } from "@/utils/showToast";
+import React from "react";
+import { Image, View } from "react-native";
+import styled from "styled-components/native";
 
 const LoveListItemBox = styled.Pressable<{ isSelected: boolean }>`
   padding: 10px 30px;
@@ -44,7 +43,7 @@ const LoveListItem = ({
 export default function TestFourthScreen({ navigation }: { navigation: any }) {
   const efforts = useAppSelect((state) => state.test.result.effort);
   const currentIndex = useAppSelect((state) => state.test.fourthScreenIndex);
-
+  const { currentTestId } = useAppSelect((state) => state.test);
   const dispatch = useAppDispatch();
 
   const category = useAppSelect((state) => state.test.category);
@@ -53,7 +52,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
 
   const currentEffort = efforts[currentIndex];
 
-  console.log("currentEffort", currentEffort);
+  // console.log("currentEffort", currentEffort);
 
   const onPressNext = () => {
     if (currentEffort.lovers.length === 0) {
@@ -62,7 +61,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
     }
 
     if (currentIndex === efforts.length - 1) {
-      navigation.push("TestResult");
+      navigation.push("TestResult", { test_id: currentTestId, is_test: true });
     } else {
       dispatch(increaseFourthScreenIndex());
       navigation.push("TestFourth");
@@ -88,7 +87,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
     }
   };
 
-  console.log("currentIndex", currentEffort);
+  // console.log("currentIndex", currentEffort);
 
   return (
     <View
@@ -108,13 +107,22 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
         }
       />
       <TestContainer>
-        <ContentsWrapper>
-          <CenteredContentsWrapper>
-            <Typography size="md">00님이 현재 몰두하고 있는</Typography>
-            <Typography size="md">{currentEffort.description}는</Typography>
-            <Typography size="md">무엇을 위해 하고있나요?</Typography>
-          </CenteredContentsWrapper>
-          <Margin margin={20} />
+        <Image
+          source={require("../../../assets/images/illustration4.png")}
+          style={{
+            width: "70%",
+            height: 300,
+            resizeMode: "contain",
+            alignSelf: "center",
+          }}
+        />
+        {/* <ContentsWrapper> */}
+        <View style={{ flex: 1 }}>
+          <TestQuestionText
+            text={`00님이 현재 몰두하고 있는 ${currentEffort.description}는 무엇을 위해 하고있나요?`}
+          />
+
+          <Margin margin={30} />
           <View
             style={{
               display: "flex",
@@ -122,6 +130,7 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
               width: "100%",
               flexWrap: "wrap",
               gap: 10,
+              justifyContent: "center",
             }}
           >
             {loveList.map((love) => (
@@ -135,7 +144,8 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
               ></LoveListItem>
             ))}
           </View>
-        </ContentsWrapper>
+        </View>
+        {/* </ContentsWrapper> */}
         <ContentsWrapper>
           <MainButton
             onPress={onPressNext}
