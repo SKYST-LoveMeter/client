@@ -1,6 +1,7 @@
 import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
+import Loading from "@/components/test/Loading";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import React from "react";
