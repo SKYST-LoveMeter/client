@@ -17,6 +17,7 @@ import { useAppDispatch } from "@/store/configureStore.hooks";
 import { addToken, loginThunk } from "@/store/modules/auth";
 import { Client } from "@/utils/api";
 import { showErrorToast } from "@/utils/showToast";
+import { storeData } from "@/utils/storage";
 
 const LoginScreen = () => {
   const navigation =
@@ -55,6 +56,10 @@ const LoginScreen = () => {
   //     });
 
   //     if (response.status === 200) {
+  //       if (!response.data.access) {
+  //         throw new Error("Token is not provided");
+  //       }
+  //       await storeData("token", response.data.access);
   //       dispatch(addToken(response.data.access));
 
   //       navigation.navigate("MainStack", {

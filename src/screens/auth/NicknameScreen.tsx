@@ -15,6 +15,7 @@ import { addToken, onChangeSignUpForm } from "@/store/modules/auth";
 import { AuthStackParamList } from "@/navigators/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import { storeData } from "@/utils/storage";
 
 export default function NicknameScreen() {
   const form = useAppSelect((state) => state.auth.signUpForm);
@@ -58,6 +59,12 @@ export default function NicknameScreen() {
   //     });
 
   //     if (response.status === 200) {
+  //       if (!response.data.access) {
+  //         throw new Error("Token is not provided");
+  //       }
+
+  //       await storeData("token", response.data.access);
+
   //       dispatch(addToken(response.data.access));
 
   //       navigation.navigate("MainStack", {
