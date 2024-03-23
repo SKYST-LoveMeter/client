@@ -20,23 +20,6 @@ const dummy = [
   { name: "친구", percentage: 50 },
 ];
 
-const Section = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <View>
-      <Typography size="lg" weight="bold">
-        {title}
-      </Typography>
-      {children}
-    </View>
-  );
-};
-
 export default function TestResultScreen({
   navigation,
   route,
@@ -136,12 +119,10 @@ export default function TestResultScreen({
             <MyPieChart title="결과" />
             <MyPieChart title="결과" />
             <Margin margin={30} />
-            <Section title="이렇게 해보는건 어때요?">
-              <View />
-            </Section>
+
             <MainButton
-              text="홈으로 가기"
-              onPress={() => navigation.navigate("Home")}
+              text="분석 결과 보러가기"
+              onPress={() => navigation.navigate("TestAnalyzed")}
             />
           </View>
         </ScrollView>
