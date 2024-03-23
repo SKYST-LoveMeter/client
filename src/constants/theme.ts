@@ -8,6 +8,7 @@ export const palette = {
   gray: "#DEDEDE",
   subText: "#949496",
   shadow: "rgba(0, 0, 0, 0.10)",
+  red: "#D0191C",
 } as const;
 
 export const THEME = {
