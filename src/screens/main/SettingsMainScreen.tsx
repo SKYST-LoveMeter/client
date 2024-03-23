@@ -24,22 +24,25 @@ const Row = ({ onPress, text }: { onPress?: () => void; text: string }) => {
   );
 };
 
+const Version = ({ version }: { version: string }) => (
+  <FlexBox
+    alignItems="center"
+    justifyContent="space-between"
+    styles={{
+      paddingHorizontal: spacing.gutter,
+      paddingVertical: spacing.offset,
+    }}
+  >
+    <Typography size="md">버전 정보</Typography>
+    <Typography size="md">{version}</Typography>
+  </FlexBox>
+);
+
 const SettingsMainScreen = () => {
   return (
     <View>
       <PageHeader title="설정" />
-      <FlexBox
-        alignItems="center"
-        justifyContent="space-between"
-        styles={{
-          paddingHorizontal: spacing.gutter,
-          paddingVertical: spacing.offset,
-        }}
-      >
-        <Typography size="md">버전 정보</Typography>
-        <Typography size="md">1.0.0</Typography>
-      </FlexBox>
-
+      <Version version="1.0.0" />
       <Row text="개인정보 처리방침" onPress={() => {}} />
       <Row text="이용 약관" onPress={() => {}} />
       <Row text="오픈소스 라이브러리" onPress={() => {}} />
