@@ -1,14 +1,15 @@
-import { View, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import FlexBox from "@/components/@common/FlexBox";
+import MainButton from "@/components/@common/MainButton";
 import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
-import styled from "styled-components/native";
+import TestContainer from "@/components/test/TestContainer";
+import TestQuestionText from "@/components/test/TestQuestionText";
 import { spacing } from "@/constants/spacing";
-import MainButton from "@/components/@common/MainButton";
-import FlexBox from "@/components/@common/FlexBox";
 import { THEME } from "@/constants/theme";
 import { useAppSelect } from "@/store/configureStore.hooks";
-import TestContainer from "@/components/@common/test/TestContainer";
+import React, { useState } from "react";
+import { Image, View } from "react-native";
+import styled from "styled-components/native";
 
 const ButtonContainer = styled.TouchableOpacity<{ selected: boolean }>`
   background-color: ${({ selected }) =>
@@ -90,9 +91,8 @@ const TestFirstScreen = ({ navigation }: { navigation: any }) => {
               alignSelf: "center",
             }}
           />
-          <Typography size="lg" styles={{ textAlign: "center" }}>
-            현재 사랑하고 있는 것들을 선택해주세요
-          </Typography>
+
+          <TestQuestionText text="현재 사랑하고 있는 것들을 선택해주세요" />
           <ButtonsContainer
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
