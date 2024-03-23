@@ -31,6 +31,7 @@ const PageHeader = ({
   title?: string;
 }) => {
   const { top: NOTCH_TOP } = useSafeAreaInsets();
+
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -53,7 +54,7 @@ const PageHeader = ({
     <Container notchTop={NOTCH_TOP}>
       {headerLeftShown ? headerLeft ? headerLeft : <HeaderLeft /> : <Blank />}
       {title && (
-        <Typography size="sm" weight="regular">
+        <Typography size="lg" weight="regular">
           {title}
         </Typography>
       )}
