@@ -70,7 +70,16 @@ const Legend = ({ index }: { index: number }) => {
     </FlexBox>
   );
 };
-export const MyPieChart = ({ title }: { title: string }) => {
+export const MyPieChart = ({
+  title,
+  data,
+}: {
+  title: string;
+  data: {
+    name: string;
+    percentage: number;
+  }[];
+}) => {
   return (
     <>
       <Typography

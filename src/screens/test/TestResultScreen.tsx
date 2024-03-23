@@ -99,8 +99,8 @@ export default function TestResultScreen({ navigation }: { navigation: any }) {
             }}
           >
             <Margin margin={20} />
-            <MyPieChart title="결과" />
-            <MyPieChart title="결과" />
+            <MyPieChart data={dummy} title="결과" />
+            <MyPieChart data={dummy} title="결과" />
             <Margin margin={30} />
             <MainButton
               text="홈으로 가기"
