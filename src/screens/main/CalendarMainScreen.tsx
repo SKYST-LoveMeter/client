@@ -23,9 +23,9 @@ const CalendarMainScreen = () => {
     setLoading(true);
 
     try {
-      const response = await Client.post<{}>(
+      const response = await Client.get<{}>(
         `test/calendar`,
-        {},
+
         {
           headers: {
             Authorization: `Bearer ${token}`,

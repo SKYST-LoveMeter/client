@@ -65,15 +65,17 @@ export default function TestResultScreen({
 
   const token = useAppSelect((state) => state.auth.token);
 
-  const [result1, setResult1] = React.useState([]);
+  const [result1, setResult1] = React.useState<{
+    before: { name: string; percentage: number; love_id: number }[];
+    after: { name: string; percentage: number; love_id: number }[];
+  }>({
+    before: [],
+    after: [],
+  });
 
-  const [result2, setResult2] = React.useState<
-    {
-      name: string;
-      percentage: string;
-      love_id: number;
-    }[]
-  >([]);
+  useEffect(() => {
+    console.log(result1);
+  }, [result1]);
 
   const sendResult = async () => {
     setIsLoading(true);
@@ -95,7 +97,7 @@ export default function TestResultScreen({
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
 
-        setResult2(response.data);
+        setResult1(response.data);
       }
     } catch (e) {
       console.log("오류");
@@ -122,8 +124,8 @@ export default function TestResultScreen({
 
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
-        setResult2(response.data);
-        console.log(response.data);
+
+        setResult1(response.data);
       }
     } catch (e) {
       logError(e);
@@ -159,8 +161,8 @@ export default function TestResultScreen({
               <Margin margin={20} />
               {/* <MyPieChart data={beforeData} title="나의 우선순위" /> */}
               {/* <MyPieChart data={afterData} title="실제로 시간쏟는 대상" /> */}
-              <MyPieChart data={result2} title="나의 우선순위" />
-              <MyPieChart data={result2} title="실제로 시간쏟는 대상" />
+              <MyPieChart data={result1.before} title="나의 우선순위" />
+              <MyPieChart data={result1.after} title="실제로 시간쏟는 대상" />
               <Margin margin={30} />
 
               <MainButton
