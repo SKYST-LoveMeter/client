@@ -1,28 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  category: [
-    {
-      id: 1,
-      name: "나",
-    },
-    {
-      id: 2,
-      name: "가족",
-    },
-    {
-      id: 3,
-      name: "애완동물",
-    },
-    {
-      id: 4,
-      name: "선생님",
-    },
-    {
-      id: 5,
-      name: "환경",
-    },
-  ],
+  category: {
+    1: "나",
+    2: "가족",
+    3: "애완동물",
+    4: "선생님",
+    5: "환경",
+  },
   result: {
     love: [
       {
@@ -37,7 +22,7 @@ const initialState = {
     effort: [
       {
         description: "프로젝트1",
-        lovers: ["할머니", "나"],
+        value: 3,
       },
     ],
   },

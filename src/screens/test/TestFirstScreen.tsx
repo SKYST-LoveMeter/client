@@ -8,12 +8,7 @@ import MainButton from "@/components/@common/MainButton";
 import FlexBox from "@/components/@common/FlexBox";
 import { THEME } from "@/constants/theme";
 import { useAppSelect } from "@/store/configureStore.hooks";
-
-const Container = styled.View`
-  padding: 0 ${spacing.gutter}px 100px;
-  flex: 1;
-  justify-content: space-between;
-`;
+import TestContainer from "@/components/@common/test/TestContainer";
 
 const ButtonContainer = styled.TouchableOpacity<{ selected: boolean }>`
   background-color: ${({ selected }) =>
@@ -67,12 +62,12 @@ const ButtonsContainer = ({
         paddingTop: 50,
       }}
     >
-      {category.map((item) => (
+      {Object.entries(category).map(([id, name]) => (
         <Button
-          key={item.id}
-          text={item.name}
-          isSelected={selectedIds.includes(item.id)}
-          onPress={() => toggleSelectedId(item.id)}
+          key={id}
+          text={name}
+          isSelected={selectedIds.includes(parseInt(id))}
+          onPress={() => toggleSelectedId(parseInt(id))}
         />
       ))}
     </FlexBox>
@@ -84,7 +79,7 @@ const TestFirstScreen = ({ navigation }: { navigation: any }) => {
   return (
     <>
       <PageHeader />
-      <Container>
+      <TestContainer>
         <View>
           <Image
             source={require("../../../assets/images/illustration1.png")}
@@ -112,7 +107,7 @@ const TestFirstScreen = ({ navigation }: { navigation: any }) => {
             })
           }
         />
-      </Container>
+      </TestContainer>
     </>
   );
 };
