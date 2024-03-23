@@ -5,21 +5,46 @@ import Typography from "@/components/@common/Typography";
 import Margin from "@/components/@common/Margin";
 import { Client } from "@/utils/api";
 import { useAppSelect } from "@/store/configureStore.hooks";
+import { logError } from "@/utils/logError";
 
 export default function TestResultScreen() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const test = useAppSelect((state) => state.test);
 
-  const sendResult = () => {};
+  const token = useAppSelect((state) => state.auth.token);
+
+  const sendResult = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await Client.post<{}>(
+        `test/${test.currentTestId}/result`,
+        {
+          love: test.result.love,
+          effort: test.result.effort,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // 받아서 작업하가ㅣ.
+
+        console.log(response.data);
+      }
+    } catch (e) {
+      logError(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setIsLoading(true);
-    // 여기서 api 호출
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    sendResult();
   }, []);
 
   return (

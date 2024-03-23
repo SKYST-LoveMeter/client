@@ -5,8 +5,10 @@ import Loading from "@/components/test/Loading";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
+import { startTest } from "@/store/modules/test";
 import { Client } from "@/utils/api";
 import { logError } from "@/utils/logError";
+import { showErrorToast } from "@/utils/showToast";
 import React from "react";
 import { Image, View } from "react-native";
 import styled from "styled-components/native";
@@ -60,26 +62,58 @@ const Container = styled.View`
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
 
+  const [loading, setLoading] = React.useState(false);
+
   const token = useAppSelect((state) => state.auth.token);
 
   const onPressWrite = async () => {
+    // if (!token) {
+    //   navigation.navigate("Login");
+    //   return;
+    // }
+
+    setLoading(true);
+
     try {
-      const response = await Client.get<{
+      const response = await Client.post<{
         category: {
           [key: string]: string;
         };
         test_id: number;
-      }>("/test");
+      }>(
+        "/test/",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 200) {
+        console.log(response.data);
+
+        if (!response.data.category || !response.data.test_id) {
+          throw new Error("response data is not valid");
+        }
+
+        dispatch(
+          startTest({
+            category: response.data.category,
+            testId: response.data.test_id,
+          })
+        );
+
+        navigation.navigate("TestFirst");
       } else {
         throw new Error("error");
       }
     } catch (error) {
       logError(error);
+      showErrorToast("테스트 시작에 실패했습니다.");
+    } finally {
+      setLoading(false);
     }
-
-    navigation.navigate("TestFirst");
   };
 
   return (
@@ -98,7 +132,11 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             paddingHorizontal: spacing.gutter,
           }}
         >
-          <MainButton text="작성하기" onPress={onPressWrite} />
+          <MainButton
+            text="작성하기"
+            onPress={onPressWrite}
+            isLoading={loading}
+          />
         </View>
       </Container>
     </>

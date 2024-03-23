@@ -13,7 +13,7 @@ import { spacing } from "@/constants/spacing";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackParamList } from "@/navigators/AuthStack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "@/store/configureStore.hooks";
+import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
 import { addToken, loginThunk } from "@/store/modules/auth";
 import { Client } from "@/utils/api";
 import { showErrorToast } from "@/utils/showToast";
@@ -33,6 +33,8 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = React.useState(false);
 
+  const token = useAppSelect((state) => state.auth.token);
+
   // const onPressLogin = async () => {
   //   navigation.navigate("MainStack", {
   //     screen: "Home",
@@ -50,10 +52,8 @@ const LoginScreen = () => {
       const response = await Client.post<{
         access: string;
       }>("/users/login/", {
-        params: {
-          username: form.id,
-          password: form.password,
-        },
+        username: form.id,
+        password: form.password,
       });
 
       if (response.status === 200) {
@@ -61,7 +61,13 @@ const LoginScreen = () => {
           throw new Error("Token is not provided");
         }
         await storeData("token", response.data.access);
+
         dispatch(addToken(response.data.access));
+
+        setForm({
+          id: "",
+          password: "",
+        });
 
         navigation.navigate("MainStack", {
           screen: "Home",
@@ -79,6 +85,10 @@ const LoginScreen = () => {
 
   const onPressSignUp = () => {
     navigation.navigate("SignUp");
+
+    // navigation.navigate("MainStack", {
+    //   screen: "Home",
+    // });
   };
 
   return (

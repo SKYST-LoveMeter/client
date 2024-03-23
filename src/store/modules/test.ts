@@ -19,9 +19,11 @@ interface IInitialState {
   meta: {
     isResultLoading: boolean;
   };
+  currentTestId: number | null;
 }
 
 const initialState: IInitialState = {
+  currentTestId: null,
   category: {
     1: "나",
     2: "가족",
@@ -82,6 +84,20 @@ export const testSlice = createSlice({
     renderCategory: (state, action) => {
       state.category = action.payload;
     },
+    startTest: (
+      state,
+      action: {
+        payload: {
+          testId: number;
+          category: {
+            [key: number]: string;
+          };
+        };
+      }
+    ) => {
+      state.currentTestId = action.payload.testId;
+      state.category = action.payload.category;
+    },
     setLove: (state, action) => {
       state.result.love = action.payload;
     },
@@ -139,6 +155,7 @@ export const {
   ToggleLoversToCurrentEffort,
   setLove,
   setLovePercentage,
+  startTest,
 } = testSlice.actions;
 
 export default testSlice.reducer;

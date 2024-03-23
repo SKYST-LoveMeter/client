@@ -87,13 +87,17 @@ const Section = ({
   </View>
 );
 
-const SettingsMainScreen = () => {
+const SettingsMainScreen = ({ navigation }: { navigation: any }) => {
   const dispatch = useAppDispatch();
 
   const onPressLogout = async () => {
     await removeData("token");
 
     dispatch(logout());
+
+    navigation.navigate("AuthStack", {
+      screen: "Login",
+    });
   };
 
   return (
