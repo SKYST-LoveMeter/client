@@ -68,10 +68,14 @@ const TestSecondScreen = ({
     <>
       <PageHeader />
       <TestContainer>
-        <View style={{ gap: spacing.gutter, paddingTop: 50 }}>
+        <View style={{ gap: spacing.gutter, paddingTop: 50, flex: 1 }}>
           <TestQuestionText text="내가 사랑하고 있는 사람들이 나에게 얼마나 중요한지 분배해주세요" />
           <ProgressBar ratio={totalPercent} />
-          <ScrollView>
+          <ScrollView
+            style={{
+              marginBottom: 50,
+            }}
+          >
             {selectedCat.map((id) => (
               <PercentageControlBox key={id} name={category[id]} id={id} />
             ))}

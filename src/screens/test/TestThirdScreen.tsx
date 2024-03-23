@@ -268,11 +268,15 @@ export default function TestThirdScreen({ navigation }: { navigation: any }) {
         isModalVisible={isValueModalVisible}
         setIsModalVisible={setIsValueModalVisible}
       >
-        <Typography size="lg">중요도를 표시해주세요</Typography>
-        <Margin margin={spacing.padding} />
-        <Typography size="sm">1칸: 별로</Typography>
-        <Typography size="sm">2칸: 보통</Typography>
-        <Typography size="sm">3칸: 중요</Typography>
+        <CenteredContentsWrapper>
+          <Typography size="lg">중요도를 표시해주세요</Typography>
+        </CenteredContentsWrapper>
+        <Margin margin={spacing.offset} />
+        <FlexBox justifyContent="center" gap={20}>
+          <Typography size="sm">1칸: 별로</Typography>
+          <Typography size="sm">2칸: 보통</Typography>
+          <Typography size="sm">3칸: 중요</Typography>
+        </FlexBox>
         <Margin margin={spacing.padding} />
 
         <CenteredContentsWrapper>

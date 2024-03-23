@@ -86,6 +86,8 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
     }
   };
 
+  console.log("currentIndex", currentEffort);
+
   return (
     <View
       style={{
@@ -106,9 +108,9 @@ export default function TestFourthScreen({ navigation }: { navigation: any }) {
       <TestContainer>
         <ContentsWrapper>
           <CenteredContentsWrapper>
-            <Typography>00님이 현재 몰두하고 있는</Typography>
-            <Typography>{currentEffort.description}는</Typography>
-            <Typography>무엇을 위해 하고있나요?</Typography>
+            <Typography size="md">00님이 현재 몰두하고 있는</Typography>
+            <Typography size="md">{currentEffort.description}는</Typography>
+            <Typography size="md">무엇을 위해 하고있나요?</Typography>
           </CenteredContentsWrapper>
           <Margin margin={20} />
           <View
