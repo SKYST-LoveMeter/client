@@ -101,31 +101,32 @@ export default function TestResultScreen({
         flex: 1,
       }}
     >
-      <PageHeader headerLeftShown={false} />
-
       {isLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Loading />
         </View>
       ) : (
-        <ScrollView>
-          <View
-            style={{
-              flex: 1,
-              paddingHorizontal: spacing.gutter,
-            }}
-          >
-            <Margin margin={20} />
-            <MyPieChart title="결과" />
-            <MyPieChart title="결과" />
-            <Margin margin={30} />
+        <>
+          <PageHeader headerLeftShown={false} />
+          <ScrollView>
+            <View
+              style={{
+                flex: 1,
+                paddingHorizontal: spacing.gutter,
+              }}
+            >
+              <Margin margin={20} />
+              <MyPieChart title="내가 생각하는 중요도" />
+              <MyPieChart title="실제 중요도" />
+              <Margin margin={30} />
 
-            <MainButton
-              text="분석 결과 보러가기"
-              onPress={() => navigation.navigate("TestAnalyzed")}
-            />
-          </View>
-        </ScrollView>
+              <MainButton
+                text="분석 결과 보러가기"
+                onPress={() => navigation.navigate("TestAnalyzed")}
+              />
+            </View>
+          </ScrollView>
+        </>
       )}
     </View>
   );
