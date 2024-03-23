@@ -9,6 +9,7 @@ export const palette = {
   subText: "#949496",
   shadow: "rgba(0, 0, 0, 0.10)",
   red: "#D0191C",
+  gray_sub: "#858585",
 } as const;
 
 export const THEME = {

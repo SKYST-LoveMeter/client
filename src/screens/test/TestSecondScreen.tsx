@@ -32,18 +32,24 @@ const PercentageControlBox = ({ id, name }: { id: number; name: string }) => {
 
 const TestSecondScreen = ({
   route,
+  navigation,
 }: {
   route: {
     params: {
       selectedCat: number[];
     };
   };
+  navigation: any;
 }) => {
   const { selectedCat } = route.params; // [1, 4]
   const {
     category,
     result: { love },
   } = useAppSelect((state) => state.test);
+
+  const onPressNextButton = () => {
+    navigation.navigate("TestThird");
+  };
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -71,7 +77,7 @@ const TestSecondScreen = ({
             ))}
           </View>
         </View>
-        <MainButton text="다음" onPress={() => {}} />
+        <MainButton text="다음" onPress={onPressNextButton} />
       </TestContainer>
     </>
   );
