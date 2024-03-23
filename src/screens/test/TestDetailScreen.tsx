@@ -29,6 +29,14 @@ interface TResult {
   previous_loves: number[];
 }
 
+function padArray(arr: number[]) {
+  if (arr.length >= 5) {
+    return arr.slice(0, 5); // Trim the array if it's longer than 5
+  } else {
+    return arr.concat(new Array(5 - arr.length).fill(0)); // Pad the array with zeros
+  }
+}
+
 export default function TestDetailScreen({
   navigation,
   route,
@@ -72,7 +80,7 @@ export default function TestDetailScreen({
 
       console.log(response.data);
 
-      // setResult(response.data);
+      setResult(response.data);
     } catch (error) {
       logError(error);
       showErrorToast("데이터를 가져오는데 실패했습니다.");
@@ -85,12 +93,15 @@ export default function TestDetailScreen({
     getLoverDetail();
   }, []);
 
+  const arrayData = result ? padArray(result.previous_loves) : [0, 0, 0, 0, 0];
+
   const data = {
-    labels: ["", "", "", "", "", ""],
+    labels: ["ㅇㄹ", "ㅋㅋ", "ㅈ", "ㄷ", "ㄱ"],
     datasets: [
       {
-        data: result?.previous_loves || [0, 0, 0, 0, 0, 0],
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        data: arrayData,
+        // data: [1, 2, 3, 4, 5, 6],
+        // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
         strokeWidth: 2, // optional
       },
     ],

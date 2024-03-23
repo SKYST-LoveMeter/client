@@ -141,35 +141,34 @@ export default function TestResultScreen({
         flex: 1,
       }}
     >
-      <PageHeader headerLeftShown={false} />
-
       {isLoading ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Loading />
         </View>
       ) : (
-        <ScrollView>
-          <View
-            style={{
-              flex: 1,
-              paddingHorizontal: spacing.gutter,
-            }}
-          >
-            <Margin margin={20} />
-            {/* <MyPieChart data={beforeData} title="나의 우선순위" /> */}
-            {/* <MyPieChart data={afterData} title="실제로 시간쏟는 대상" /> */}
-            <MyPieChart data={result2} title="나의 우선순위" />
-            <MyPieChart data={result2} title="실제로 시간쏟는 대상" />
-            <Margin margin={30} />
-            <Section title="이렇게 해보는건 어때요?">
-              <View />
-            </Section>
-            <MainButton
-              text="홈으로 가기"
-              onPress={() => navigation.navigate("Home")}
-            />
-          </View>
-        </ScrollView>
+        <>
+          <PageHeader headerLeftShown={false} />
+          <ScrollView>
+            <View
+              style={{
+                flex: 1,
+                paddingHorizontal: spacing.gutter,
+              }}
+            >
+              <Margin margin={20} />
+              {/* <MyPieChart data={beforeData} title="나의 우선순위" /> */}
+              {/* <MyPieChart data={afterData} title="실제로 시간쏟는 대상" /> */}
+              <MyPieChart data={result2} title="나의 우선순위" />
+              <MyPieChart data={result2} title="실제로 시간쏟는 대상" />
+              <Margin margin={30} />
+
+              <MainButton
+                text="분석 결과 보러가기"
+                onPress={() => navigation.navigate("TestAnalyzed")}
+              />
+            </View>
+          </ScrollView>
+        </>
       )}
     </View>
   );
