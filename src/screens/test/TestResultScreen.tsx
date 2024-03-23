@@ -97,6 +97,8 @@ export default function TestResultScreen({
       if (response.status === 200) {
         // 받아서 작업하가ㅣ.
 
+        console.log("response data", response.data);
+
         setResult1(response.data);
       }
     } catch (e) {
@@ -167,7 +169,11 @@ export default function TestResultScreen({
 
               <MainButton
                 text="분석 결과 보러가기"
-                onPress={() => navigation.navigate("TestAnalyzed")}
+                onPress={() =>
+                  navigation.navigate("TestAnalyzed", {
+                    testId: is_test ? test.currentTestId : test_id,
+                  })
+                }
               />
             </View>
           </ScrollView>

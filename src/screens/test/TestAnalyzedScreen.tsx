@@ -38,16 +38,44 @@ const Section = ({ title, contents }: { title: string; contents: string }) => {
   );
 };
 
-const TestAnalyzedScreen = ({ navigation }: { navigation: any }) => {
+const TestAnalyzedScreen = ({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) => {
+  const testId = route.params.testId;
+
   const { nickname } = useAppSelect((state) => state.auth);
   const [isLoading, setIsLoading] = React.useState(false);
   const token = useAppSelect((state) => state.auth.token);
+
+  const [result, setResult] = React.useState<{
+    highest_prediction: string;
+    highest_value: string;
+    over_value: string;
+    under_value: string;
+  }>({
+    highest_prediction: "",
+    highest_value: "",
+    over_value: "",
+    under_value: "",
+  });
+
   const getResult = async () => {
     setIsLoading(true);
 
+    console.log("testId", testId);
+
     try {
-      const response = await Client.post<{}>(
-        `test`,
+      const response = await Client.post<{
+        highest_prediction: string;
+        highest_value: string;
+        over_value: string;
+        under_value: string;
+      }>(
+        `test/${testId}/analysis`,
         {},
         {
           headers: {
@@ -60,6 +88,13 @@ const TestAnalyzedScreen = ({ navigation }: { navigation: any }) => {
         // 받아서 작업하가ㅣ.
 
         console.log(response.data);
+
+        setResult({
+          highest_prediction: response.data.highest_prediction,
+          highest_value: response.data.highest_value,
+          over_value: response.data.over_value,
+          under_value: response.data.under_value,
+        });
       }
     } catch (e) {
       logError(e);
@@ -67,9 +102,10 @@ const TestAnalyzedScreen = ({ navigation }: { navigation: any }) => {
       setIsLoading(false);
     }
   };
-  //   useEffect(() => {
-  //     getResult();
-  //   }, []);
+
+  useEffect(() => {
+    getResult();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -96,28 +132,29 @@ const TestAnalyzedScreen = ({ navigation }: { navigation: any }) => {
               }}
             />
 
-            <Section title={`내가 생각하는 중요도 1등`} contents={"000"} />
-            <Section title={`실제 중요도 1등`} contents={"000"} />
+            <Section
+              title={`내가 생각하는 중요도 1등`}
+              contents={result.highest_prediction}
+            />
+            <Section
+              title={`실제 중요도 1등`}
+              contents={result.highest_value}
+            />
             <Section
               title={` 내가 생각하는 중요도에 비해 실제 중요도가 가장 낮은 인물`}
-              contents={"000"}
+              contents={result.under_value}
             />
             <Section
               title={"내가 생각하는 중요도에 비해 실제 중요도가 가장 높은 인물"}
-              contents={"000"}
+              contents={result.over_value}
             />
-            <Section
+            {/* <Section
               title={
                 "내가 중요하지 않았다고 생각했는데 실제로 내 삶에서 50%나 차지하고 있는 인물"
               }
-              contents={"000"}
-            />
-            <Section
-              title={"이렇게 해보는건 어때요?"}
-              contents={
-                "ㄴㅇ러ㅏㅣㄴ어라ㅣ어리ㅏㄴㅇ리어라ㅣㄴ어피ㅏㄴ아ㅣㄴ아리ㅓ너"
-              }
-            />
+              contents={result.over_value}
+            /> */}
+            {/* <Section title={"이렇게 해보는건 어때요?"} contents={} /> */}
 
             <Margin margin={50} />
             <MainButton
