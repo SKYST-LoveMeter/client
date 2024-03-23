@@ -1,7 +1,6 @@
 import FlexBox from "@/components/@common/FlexBox";
 import Icons from "@/components/@common/Icons";
 import MainButton from "@/components/@common/MainButton";
-import { MyPieChart } from "@/components/test/PieChart";
 import { spacing } from "@/constants/spacing";
 import useHeight from "@/hooks/useHeight";
 import { useAppDispatch, useAppSelect } from "@/store/configureStore.hooks";
@@ -111,9 +110,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             resizeMode: "contain",
           }}
         />
-        <MainButton text="작성하기" onPress={onPressWrite} />
       </Container>
-      <GoToTest onPress={() => navigation.navigate("TestFirst")} />
+      <GoToTest onPress={onPressWrite} />
     </>
   );
 };
