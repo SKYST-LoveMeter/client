@@ -1,5 +1,5 @@
 import { View, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageHeader from "@/components/@common/PageHeader";
 import Typography from "@/components/@common/Typography";
 import styled from "styled-components/native";
@@ -7,6 +7,7 @@ import { spacing } from "@/constants/spacing";
 import MainButton from "@/components/@common/MainButton";
 import FlexBox from "@/components/@common/FlexBox";
 import { THEME } from "@/constants/theme";
+import { useAppSelect } from "@/store/configureStore.hooks";
 
 const Container = styled.View`
   padding: 0 ${spacing.gutter}px 100px;
@@ -24,15 +25,14 @@ const ButtonContainer = styled.TouchableOpacity<{ selected: boolean }>`
 const Button = ({
   text,
   isSelected,
+  onPress,
 }: {
   text: string;
   isSelected: boolean;
+  onPress: () => void;
 }) => {
-  const [selected, setSelected] = useState(isSelected);
-
-  const toggleSelected = () => setSelected(!selected);
   return (
-    <ButtonContainer selected={selected} onPress={toggleSelected}>
+    <ButtonContainer selected={isSelected} onPress={onPress}>
       <Typography size="md" styles={{ textAlign: "center" }}>
         {text}
       </Typography>
@@ -40,7 +40,23 @@ const Button = ({
   );
 };
 
-const ButtonsContainer = () => {
+const ButtonsContainer = ({
+  selectedIds,
+  setSelectedIds,
+}: {
+  selectedIds: number[];
+  setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>;
+}) => {
+  const { category } = useAppSelect((state) => state.test);
+
+  const toggleSelectedId = (id: number) => {
+    setSelectedIds((currentSelectedIds) =>
+      currentSelectedIds.includes(id)
+        ? currentSelectedIds.filter((selectedId) => selectedId !== id)
+        : [...currentSelectedIds, id]
+    );
+  };
+
   return (
     <FlexBox
       gap={spacing.padding}
@@ -51,20 +67,20 @@ const ButtonsContainer = () => {
         paddingTop: 50,
       }}
     >
-      <Button text="나" isSelected={false} />
-      <Button text="가족" isSelected={false} />
-      <Button text="애완동물" isSelected={false} />
-      <Button text="친구" isSelected={false} />
-      <Button text="선생님" isSelected={false} />
-      <Button text="커뮤니티" isSelected={false} />
-      <Button text="자연" isSelected={false} />
-      <Button text="직업" isSelected={false} />
-      <Button text="취미" isSelected={false} />
+      {category.map((item) => (
+        <Button
+          key={item.id}
+          text={item.name}
+          isSelected={selectedIds.includes(item.id)}
+          onPress={() => toggleSelectedId(item.id)}
+        />
+      ))}
     </FlexBox>
   );
 };
 
 const TestFirstScreen = ({ navigation }: { navigation: any }) => {
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   return (
     <>
       <PageHeader />
@@ -82,12 +98,19 @@ const TestFirstScreen = ({ navigation }: { navigation: any }) => {
           <Typography size="lg" styles={{ textAlign: "center" }}>
             현재 사랑하고 있는 것들을 선택해주세요
           </Typography>
-          <ButtonsContainer />
+          <ButtonsContainer
+            selectedIds={selectedIds}
+            setSelectedIds={setSelectedIds}
+          />
         </View>
 
         <MainButton
           text="다음"
-          onPress={() => navigation.navigate("TestSecond")}
+          onPress={() =>
+            navigation.navigate("TestSecond", {
+              selectedCat: selectedIds.sort((a, b) => a - b),
+            })
+          }
         />
       </Container>
     </>
